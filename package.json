@@ -1,0 +1,11 @@
+{
+  "name": "bankingapplication",
+  "version": "1.0.0",
+  "description": "Repository for all code pertinent to the final project for ECE567: Software Engineering 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
