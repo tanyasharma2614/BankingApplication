@@ -1,10 +1,10 @@
 const mysql=require('mysql');
 
 const dbConfig={
-    host:'localhost',
+    host:'127.0.0.1',
     user:'root',
     password:'password',
-    database:'bank',
+    database:'bank'
 };
 
 const connection = mysql.createConnection(dbConfig);

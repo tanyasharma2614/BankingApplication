@@ -3,7 +3,7 @@ const fs = require('fs');
 const handleAPIRequest = require('./routes/api');
 const { url } = require('inspector');
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 const server = http.createServer((req, res) => {
   if (req.url === '/' || req.url === '/index.html') {
