@@ -30,6 +30,23 @@ const customerController = {
   },
   // Add more controller methods for other customer-related APIs here
   sign_up: function(req, res){
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    req.on('end', () => {
+      console.log(body)
+        console.log(JSON.parse(body));
+        res.end('ok');
+    });
+    // Expected data from frontend
+    // { 'f-name': "Vanna Poole",
+    // 'l-name': "Zenaida Levy",
+    // 'mail': "carywoh@mailinator.com",
+    // 'phone': "+1 (821) 518-6295",
+    // 'user-password': "Pa$$w0rd!",
+    // 'user-password-confirm': "Pa$$w0rd!"}
+
     const cust_id = req.headers.customer_id;
     const username = req.headers.username;
     const password = req.headers.password;
