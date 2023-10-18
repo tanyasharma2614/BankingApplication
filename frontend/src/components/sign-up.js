@@ -117,6 +117,32 @@ document.addEventListener("DOMContentLoaded", function () {
   inputContainerDivPhone.appendChild(phoneInput);
   inputContainerDivPhone.appendChild(errorDivPhone);
 
+  const inputContainerDivUserName = document.createElement("div");
+  inputContainerDivUserName.className = "input-container";
+
+  // Create label element inside div.input-container
+  const labelElementUserName = document.createElement("label");
+  labelElementUserName.setAttribute("for", "u-name");
+
+  // Create and append other form elements as needed
+  // For example, creating input elements
+  // Create and append more form elements
+  const userName = document.createElement("input");
+  userName.type = "text";
+  userName.name = "username";
+  userName.id = "username";
+  userName.required = true;
+  userName.placeholder = "username";
+
+  const errorDivUserName = document.createElement("div");
+  errorDivUserName.className = "error";
+
+  // Append label, input, span, and div.error elements to div.input-container
+  inputContainerDivUserName.appendChild(labelElementUserName);
+  inputContainerDivUserName.appendChild(userName);
+  inputContainerDivUserName.appendChild(errorDivUserName);
+
+
   const inputContainerDivPswd = document.createElement("div");
   inputContainerDivPswd.className = "input-container";
 
@@ -172,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Create div with id "btm"
   const btmDiv = document.createElement("div");
   btmDiv.id = "btm";
+  btmDiv.className = "sub-btn";
 
   // Create button element inside div#btm
   const submitButton = document.createElement("button");
@@ -201,6 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
   formContainer.appendChild(inputContainerDivLast);
   formContainer.appendChild(inputContainerDivEmail);
   formContainer.appendChild(inputContainerDivPhone);
+  formContainer.appendChild(inputContainerDivUserName);
   formContainer.appendChild(inputContainerDivPswd);
   formContainer.appendChild(inputContainerDivConfirm);
   formContainer.appendChild(btmDiv);
