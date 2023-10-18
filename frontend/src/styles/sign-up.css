@@ -113,6 +113,9 @@ form {
     display: grid;
     place-items: center;
 }
+.sub-btn {
+    margin-top: 50px;
+}
 .btm-text {
     margin-top: 15px;
     font-size: 14px;
