@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create label element inside div.input-container
   const labelElementlast = document.createElement("label");
-  labelElementlast.setAttribute("for", "f-name");
+  labelElementlast.setAttribute("for", "l-name");
 
   // Create and append other form elements as needed
   // For example, creating input elements
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create label element inside div.input-container
   const labelElementEmail = document.createElement("label");
-  labelElementEmail.setAttribute("for", "f-name");
+  labelElementEmail.setAttribute("for", "mail");
 
   // Create and append other form elements as needed
   // For example, creating input elements
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create label element inside div.input-container
   const labelElementPhone = document.createElement("label");
-  labelElementPhone.setAttribute("for", "f-name");
+  labelElementPhone.setAttribute("for", "phone");
 
   const phoneInput = document.createElement("input");
   phoneInput.type = "tel";
@@ -129,8 +129,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Create and append more form elements
   const userName = document.createElement("input");
   userName.type = "text";
-  userName.name = "username";
-  userName.id = "username";
+  userName.name = "u-name";
+  userName.id = "u-name";
   userName.required = true;
   userName.placeholder = "username";
 
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create label element inside div.input-container
   const labelElementPswd = document.createElement("label");
-  labelElementPswd.setAttribute("for", "f-name");
+  labelElementPswd.setAttribute("for", "password");
 
   // Create and append other form elements as needed
   // For example, creating input elements
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create label element inside div.input-container
   const labelElementConfirm = document.createElement("label");
-  labelElementConfirm.setAttribute("for", "f-name");
+  labelElementConfirm.setAttribute("for", "confirm-passworde");
 
   // Create and append other form elements as needed
   // For example, creating input elements
