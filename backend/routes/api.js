@@ -5,7 +5,7 @@ function handleAPIRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const { pathname } = url;
 
-  if (req.method === 'POST') {
+  if (req.method === 'POST' || req.method === 'GET') {
     const endpoint = pathname.split('/').pop();
 
     switch (endpoint) {
@@ -24,7 +24,8 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  } else {
+  }
+  else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }
