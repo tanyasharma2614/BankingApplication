@@ -13,9 +13,6 @@ function handleAPIRequest(req, res) {
       case 'signup':
         customerController.sign_up(req, res);
         break;
-      case 'locate_branch':
-        customerController.locate_branch(req, res);
-        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -26,6 +23,9 @@ function handleAPIRequest(req, res) {
       case 'bankStatement':
       customerController.bankStatement(req, res);
       break;
+      case 'locate_branch':
+        customerController.locate_branch(req, res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));

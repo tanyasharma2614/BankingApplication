@@ -1,5 +1,6 @@
 const https = require('https');
 const bcrypt = require('bcrypt');
+const url = require('url');
 const Customer = require('../models/customer');
 
 const customerController = {
@@ -133,7 +134,9 @@ const customerController = {
   },
   //A function that uses nominatim geolocation API
   locate_branch: function(req, res){
-    const zip_code = req.headers.zip_code;
+
+    const parsed_url = url.parse(req.url, true);
+    const zip_code = parsed_url.query.zip_code;
     const apiUrl = 'nominatim.openstreetmap.org';
 
     if(!zip_code){
@@ -171,8 +174,9 @@ const customerController = {
       });
 
       map_res.on('end', () => {
-        const response = JSON.parse(data);
-        console.log(response);
+        //Sending this json data to the map
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(data);
       });
     });
 
@@ -183,9 +187,6 @@ const customerController = {
     });
 
     map_req.end();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ success: true }));
-    return;
       
   }
 };
