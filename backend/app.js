@@ -2,13 +2,21 @@ const http = require('http');
 const fs = require('fs');
 const handleAPIRequest = require('./routes/api');
 const { url } = require('inspector');
+const path = require('path'); 
+require('dotenv').config();
+
 
 const port = process.env.PORT || 8080;
+
+const fileExtensions = {
+  '.html': 'text/html',
+  '.css': 'text/css',
+  '.js': 'text/javascript'
+};
 
 const server = http.createServer((req, res) => {
   if (req.url === '/' || req.url === '/index.html') {
     const filePath = __dirname + '/../frontend/public/index.html';
-
     fs.readFile(filePath, (err, data) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -49,14 +57,41 @@ const server = http.createServer((req, res) => {
   }
   else if (req.url.startsWith('/api')) {
     handleAPIRequest(req, res);
-  } 
-  else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Not Found' }));
+  } else {
+    const urlArray = req.url.split('/');
+    const fileName = urlArray[urlArray.length - 1];
+    const fileExtension = path.extname(fileName);
+    const filePath = getFilePath(fileName);
+
+    if (filePath) {
+      fs.readFile(filePath, (err, data) => {
+        if (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Internal Server Error' }));
+        } else {
+          const contentType = fileExtensions[fileExtension] || 'text/plain';
+          res.writeHead(200, { 'Content-Type': contentType });
+          res.end(data);
+        }
+      });
+    } else {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Not Found' }));
+    }
   }
 });
 
-
+const getFilePath = (fileName) => {
+  const filePaths = {
+    // Add file paths here 
+    'main.css': '../frontend/src/styles/main.css',
+    'sign-up.html': '../frontend/public/sign-up.html',
+    'locate_branch.html': '../frontend/public/locate_branch.html',
+    'sign-up.js': '../frontend/src/components/sign-up.js',
+    'sign-up.css': '../frontend/src/styles/sign-up.css',
+  };
+  return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
+}
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

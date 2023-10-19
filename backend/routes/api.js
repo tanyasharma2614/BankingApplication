@@ -4,18 +4,25 @@ const { parse } = require('querystring');
 function handleAPIRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const { pathname } = url;
-
-  if (req.method === 'POST' || req.method === 'GET') {
-    const endpoint = pathname.split('/').pop();
-
+  const endpoint = pathname.split('/').pop();
+  if (req.method === 'POST') {
     switch (endpoint) {
       case 'login':
         customerController.login(req, res);
         break;
-      // Add more cases for other endpoints and controllers as needed
       case 'signup':
         customerController.sign_up(req, res);
         break;
+      default:
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+        break;
+    }
+  } else if (req.method === 'GET'){
+    switch (endpoint) {
+      case 'bankStatement':
+      customerController.bankStatement(req, res);
+      break;
       case 'locate_branch':
         customerController.locate_branch(req, res);
         break;
@@ -24,8 +31,7 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }
-  else {
+  }else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }
