@@ -1,39 +1,42 @@
-const customerController = require('../controllers/customerController');
-const { parse } = require('querystring');
+const customerController = require("../controllers/customerController");
+const { parse } = require("querystring");
 
 function handleAPIRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const { pathname } = url;
-  const endpoint = pathname.split('/').pop();
-  if (req.method === 'POST') {
+  const endpoint = pathname.split("/").pop();
+  if (req.method === "POST") {
     switch (endpoint) {
-      case 'login':
+      case "login":
         customerController.login(req, res);
         break;
-      case 'signup':
+      case "signup":
         customerController.sign_up(req, res);
         break;
+      case "accountActivity":
+        customerController.accountActivity(req, res);
+        break;
       default:
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Not Found' }));
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Not Found" }));
         break;
     }
-  } else if (req.method === 'GET'){
+  } else if (req.method === "GET") {
     switch (endpoint) {
-      case 'bankStatement':
-      customerController.bankStatement(req, res);
-      break;
-      case 'locate_branch':
+      case "bankStatement":
+        customerController.bankStatement(req, res);
+        break;
+      case "locate_branch":
         customerController.locate_branch(req, res);
         break;
       default:
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Not Found' }));
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Not Found" }));
         break;
     }
-  }else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Not Found' }));
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Not Found" }));
   }
 }
 
