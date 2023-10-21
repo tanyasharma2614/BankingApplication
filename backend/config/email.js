@@ -22,6 +22,7 @@ const sendEmail=async(to,subject,text,html)=>{
     try{
         const info=await transporter.sendMail(mailOptions);
         console.log('Email sent:',info.response);
+        return;
     }catch(error){
         console.error('Email sending failed:',error);
     }
@@ -29,8 +30,8 @@ const sendEmail=async(to,subject,text,html)=>{
 module.exports=sendEmail;
 
 
-sendEmail(
-    'tanyasharma2614@gmail.com',
-    'Test',
-    'This is a test email'
-);
+// sendEmail(
+//     'tanyasharma2614@gmail.com',
+//     'Test',
+//     'This is a test email'
+// );
