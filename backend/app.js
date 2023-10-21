@@ -86,8 +86,10 @@ const getFilePath = (fileName) => {
     // Add file paths here 
     'main.css': '../frontend/src/styles/main.css',
     'sign-up.html': '../frontend/public/sign-up.html',
+    'login.html':'../frontend/public/login.html',
     'locate_branch.html': '../frontend/public/locate_branch.html',
     'sign-up.js': '../frontend/src/components/sign-up.js',
+    'login.js':'../frontend/src/components/login.js',
     'sign-up.css': '../frontend/src/styles/sign-up.css',
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
