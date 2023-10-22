@@ -20,6 +20,9 @@ function handleAPIRequest(req, res) {
     }
   } else if (req.method === 'GET'){
     switch (endpoint) {
+      case 'accountActivity':
+      customerController.accountActivity(req, res);
+      break;
       case 'bankStatement':
       customerController.bankStatement(req, res);
       break;
