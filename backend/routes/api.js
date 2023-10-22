@@ -1,4 +1,5 @@
 const customerController = require('../controllers/customerController');
+const alertController=require('../controllers/alertController');
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -12,6 +13,9 @@ function handleAPIRequest(req, res) {
         break;
       case 'signup':
         customerController.sign_up(req, res);
+        break;
+      case 'email-alert':
+        alertController.alert(req,res);
         break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
