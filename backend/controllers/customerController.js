@@ -1,6 +1,12 @@
+<<<<<<< Updated upstream
 const https = require('https');
 const url = require('url');
+=======
+const http = require('http');
+const bcrypt = require('bcrypt');
+>>>>>>> Stashed changes
 const Customer = require('../models/customer');
+const {send_map_request} = require('./locate_branch_controller');
 
 const customerController = {
   login: function (req, res) {
@@ -23,8 +29,31 @@ const customerController = {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true }));
         } else {
+<<<<<<< Updated upstream
           res.writeHead(401, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Unauthorized' }));
+=======
+            Customer.validateLogin(username, password, (error, results) => {
+                if (error) {
+                    console.error(error);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    if (results.length === 1) {
+                        
+                        //Moving this to the customer dashboard callback
+                        //res.writeHead(200, { 'Content-Type': 'application/json' });
+                        //res.end(JSON.stringify({ success: true }));
+                        
+                        //Opening the customer dashboard for this user
+                        open_customer_dashboard(results, res);
+                    } else {
+                        res.writeHead(401, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: 'Unauthorized' }));
+                    }
+                }
+            });
+>>>>>>> Stashed changes
         }
       }
     });
@@ -58,60 +87,43 @@ const customerController = {
   //A function that uses nominatim geolocation API
   locate_branch: function(req, res){
 
-    const parsed_url = url.parse(req.url, true);
-    const zip_code = parsed_url.query.zip_code;
-    const apiUrl = 'nominatim.openstreetmap.org';
+    let request_body = '';
 
-    if(!zip_code){
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Missing zip code in the request body' }));
-      return;
-    }
-
-    // Define additional query parameters if needed
-    const query_params = new URLSearchParams({
-      amenity: 'PNC Bank',
-      format: 'json', // Response format (JSON)
-      postalcode: zip_code.toString(),
+    req.on('data', (chunk) => {
+      request_body += chunk;
     });
 
-    // Creating the endpoint url for the third party provider
-    const api_url_with_params = `/search?${query_params.toString()}`;
-
-    // Setting up the request options
-    const options = {
-      hostname: apiUrl,
-      path: api_url_with_params,
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Bank Application School Project',
-      },
-    };
-
-    //Sending the request and waiting for the response
-    const map_req = https.request(options, (map_res) => {
-      let data = '';
-
-      map_res.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      map_res.on('end', () => {
-        //Sending this json data to the map
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(data);
-      });
+    req.on('end', () => {
+      send_map_request(request_body, res);
     });
-
-    map_req.on('error', (error) => {
-      console.error('Error:', error);
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Internal Server Error' }));
-    });
-
-    map_req.end();
-      
+          
   }
 };
+
+// A function to open the dashboard for the customer
+function open_customer_dashboard(results, res){
+
+  console.log(results[0].Customer_Id);
+  
+  Customer.accountsDashboard(results[0].Customer_Id, (error, results) => {
+    if(error){
+      console.error(error);
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('Failed to find the open accounts.');
+    }
+    else{
+      console.log(`Result of get query: ${JSON.stringify(results)}`);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      const responseData = {
+        success: true,
+        message: 'Data Received Successfully',
+        data: {results},
+      };
+      res.end(JSON.stringify(responseData));
+    }
+  });
+
+}
 
 module.exports = customerController;

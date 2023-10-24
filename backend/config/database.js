@@ -3,7 +3,11 @@ const mysql=require('mysql');
 const dbConfig={
     host:'127.0.0.1',
     user:'root',
+<<<<<<< Updated upstream
     password:'password',
+=======
+    password: 'password',
+>>>>>>> Stashed changes
     database:'bank'
 };
 
