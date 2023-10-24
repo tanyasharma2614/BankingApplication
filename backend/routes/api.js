@@ -17,19 +17,6 @@ function handleAPIRequest(req, res) {
       case 'email-alert':
         alertController.alert(req,res);
         break;
-      default:
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Not Found' }));
-        break;
-    }
-  } else if (req.method === 'GET'){
-    switch (endpoint) {
-      case 'accountActivity':
-      customerController.accountActivity(req, res);
-      break;
-      case 'bankStatement':
-      customerController.bankStatement(req, res);
-      break;
       case 'locate_branch':
         customerController.locate_branch(req, res);
         break;
@@ -38,15 +25,12 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-<<<<<<< Updated upstream
-=======
-  } 
-  else if (req.method === 'GET'){
+  } else if (req.method === 'GET'){
     switch (endpoint) {
       case 'accountActivity':
         customerController.accountActivity(req, res);
-        break;
-      case 'bankStatement':
+      break;
+        case 'bankStatement':
         customerController.bankStatement(req, res);
         break;
       default:
@@ -54,9 +38,7 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
->>>>>>> Stashed changes
-  }
-  else {
+  }else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }

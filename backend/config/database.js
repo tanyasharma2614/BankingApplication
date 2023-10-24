@@ -1,17 +1,9 @@
 const mysql=require('mysql');
 require('dotenv').config();
 const dbConfig={
-    host:'localhost',
+    host:'127.0.0.1',
     user:'root',
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    password:'password',
-=======
     password: 'password',
->>>>>>> Stashed changes
-=======
-    password: process.env.DB_PSWD,
->>>>>>> main
     database:'bank'
 };
 

@@ -12,8 +12,6 @@ const Customer={
         const sql="INSERT INTO Credentials (Customer_Id, User_Type, Username, Password) VALUES (" + customer_id + ", 'Customer', '" + username + "', '" + password + "')";
         db.query(sql, callback); 
     },
-<<<<<<< Updated upstream
-=======
     accountActivity: function(customer_id, callback){
         //Note: Need to have the Customer with the current customer_id in the Customer table before this
         const sql=` SELECT * FROM Transactions
@@ -34,7 +32,6 @@ const Customer={
         const sql = 'SELECT * FROM Accounts WHERE Customer_Id=?';
         db.query(sql,[customer_id],callback);
     }
->>>>>>> Stashed changes
 };
 
 module.exports=Customer;
