@@ -1,10 +1,6 @@
-<<<<<<< Updated upstream
-const https = require('https');
-const url = require('url');
-=======
 const http = require('http');
 const bcrypt = require('bcrypt');
->>>>>>> Stashed changes
+
 const Customer = require('../models/customer');
 const {send_map_request} = require('./locate_branch_controller');
 
@@ -29,10 +25,10 @@ const customerController = {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true }));
         } else {
-<<<<<<< Updated upstream
+
           res.writeHead(401, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Unauthorized' }));
-=======
+
             Customer.validateLogin(username, password, (error, results) => {
                 if (error) {
                     console.error(error);
@@ -53,7 +49,6 @@ const customerController = {
                     }
                 }
             });
->>>>>>> Stashed changes
         }
       }
     });
@@ -86,7 +81,6 @@ const customerController = {
   },
   //A function that uses nominatim geolocation API
   locate_branch: function(req, res){
-
     let request_body = '';
 
     req.on('data', (chunk) => {
@@ -96,7 +90,6 @@ const customerController = {
     req.on('end', () => {
       send_map_request(request_body, res);
     });
-          
   }
 };
 
