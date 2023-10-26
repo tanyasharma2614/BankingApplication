@@ -27,7 +27,7 @@ const customerController = {
                 } else {
                     if (results.length === 1) {
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: true }));
+                        res.end(JSON.stringify({ customer_id: results[0].Customer_Id }));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
@@ -203,31 +203,5 @@ const customerController = {
   }
 
 };
-
-// A function to open the dashboard for the customer
-function open_customer_dashboard(results, res){
-
-  console.log(results[0].Customer_Id);
-  
-  Customer.accountsDashboard(results[0].Customer_Id, (error, results) => {
-    if(error){
-      console.error(error);
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.end('Failed to find the open accounts.');
-    }
-    else{
-      console.log(`Result of get query: ${JSON.stringify(results)}`);
-
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      const responseData = {
-        success: true,
-        message: 'Data Received Successfully',
-        data: {results},
-      };
-      res.end(JSON.stringify(responseData));
-    }
-  });
-
-}
 
 module.exports = customerController;

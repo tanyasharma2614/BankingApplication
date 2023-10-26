@@ -27,10 +27,6 @@ const Customer={
                     AND Timestamp_Start >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
                     ORDER BY Timestamp_Start DESC;`;
         db.query(sql, callback); 
-    },
-    accountsDashboard: function(customer_id, callback){
-        const sql = 'SELECT * FROM Accounts WHERE Customer_Id=?';
-        db.query(sql,[customer_id],callback);
     }
 };
 

@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded",function(){
             const data = await response.json();
             console.log("Login Successful"); 
             window.alert("Success");
-            window.location.href = "#";
+            window.location.href = '#';
           } else {
             const errorData = await response.json();
             console.error("Login API request failed with status: " + response.status);
