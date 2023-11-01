@@ -30,12 +30,19 @@ function handleAPIRequest(req, res) {
       case 'locate_branch':
         customerController.locate_branch(req, res);
         break;
+      case 'google-login':
+        customerController.google_login(req,res);
+        break;
+      case 'google-login-callback':
+          customerController.google_login_callback(req,res);
+          break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }else {
+  }
+  else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }

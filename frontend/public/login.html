@@ -61,6 +61,12 @@
             <div class="error" id="confirmError"></div>
           </div>
 
+          <div class="input-container">
+            <button type="button" id="google-login" class="google-login-btn">
+              Login with Google
+            </button>
+          </div>
+
           <div id="btm">
             <button type="submit" class="submit-btn">Submit</button>
           </div>
@@ -68,5 +74,11 @@
       </form>
     </main>
     <script src="../src/components/login.js"></script>
+    <script>
+      document.getElementById('google-login').addEventListener('click', () => {
+        // Redirect to the Google OAuth endpoint for login
+        window.location.href = '/api/google-login';
+      });
+    </script>
   </body>
 </html>
