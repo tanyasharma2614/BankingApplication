@@ -1,6 +1,7 @@
 const https = require('https');
 const bcrypt = require('bcrypt');
 const url = require('url');
+const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 
 const customerController = {
@@ -26,8 +27,9 @@ const customerController = {
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {
                     if (results.length === 1) {
+                        const token=jwt.sign({username},process.env.JWT_SECRET,{expiresIn:'1h'})
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: true }));
+                        res.end(JSON.stringify({token}));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
