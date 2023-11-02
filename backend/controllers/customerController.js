@@ -4,17 +4,6 @@ const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 const {send_map_request} = require('./locate_branch_controller');
 const {oauth2client,SCOPES} = require('../config/oauth');
-const Customer = require('../models/customer');
-const {oauth2client,SCOPES} = require('../config/oauth');
-const {send_map_request} = require('./locate_branch_controller');
-
-const Customer = require('../models/customer');
-const {oauth2client,SCOPES} = require('../config/oauth');
-const {send_map_request} = require('./locate_branch_controller');
-
-const Customer = require('../models/customer');
-const {oauth2client,SCOPES} = require('../config/oauth');
-const {send_map_request} = require('./locate_branch_controller');
 
 const customerController = {
   login: function (req, res)  {
