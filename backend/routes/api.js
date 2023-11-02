@@ -24,6 +24,9 @@ function handleAPIRequest(req, res) {
       case 'insertPolicyRates':
         adminController.insertPolicyRates(req,res);
         break;
+      case 'locate_branch':
+        customerController.locate_branch(req, res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -32,13 +35,10 @@ function handleAPIRequest(req, res) {
   } else if (req.method === 'GET'){
     switch (endpoint) {
       case 'accountActivity':
-      customerController.accountActivity(req, res);
+        customerController.accountActivity(req, res);
       break;
-      case 'bankStatement':
-      customerController.bankStatement(req, res);
-      break;
-      case 'locate_branch':
-        customerController.locate_branch(req, res);
+        case 'bankStatement':
+        customerController.bankStatement(req, res);
         break;
       case 'getAllPolicyNames':
         adminController.getAllPolicyNames(req,res);

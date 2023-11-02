@@ -57,7 +57,8 @@ const server = http.createServer((req, res) => {
   }
   else if (req.url.startsWith('/api')) {
     handleAPIRequest(req, res);
-  } else {
+  }
+  else {
     const urlArray = req.url.split('/');
     const fileName = urlArray[urlArray.length - 1];
     const fileExtension = path.extname(fileName);
@@ -88,8 +89,10 @@ const getFilePath = (fileName) => {
     'sign-up.html': '../frontend/public/sign-up.html',
     'login.html':'../frontend/public/login.html',
     'locate_branch.html': '../frontend/public/locate_branch.html',
+    'locate_branch.css': '../frontend/src/styles/locate_branch.css',
     'sign-up.js': '../frontend/src/components/sign-up.js',
     'login.js':'../frontend/src/components/login.js',
+    'locate_branch.js': '../frontend/src/components/locate_branch.js',
     'sign-up.css': '../frontend/src/styles/sign-up.css',
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
