@@ -83,7 +83,7 @@ const customerController = {
         const recaptchaResponse = requestData['recaptchaResponse'];
 
         // Verify reCAPTCHA response with Google's reCAPTCHA verification endpoint
-        const recaptchaSecretKey = '6Lf-Su4oAAAAAKfgFAEh39SXBJFVzqs5Qrt3cVFe'; // Replace with your reCAPTCHA secret key
+        const recaptchaSecretKey = '<Secret API key>'; // Replace with your reCAPTCHA secret key
         const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaResponse}`;
         try {
           const recaptchaVerificationResponse = await fetch(verificationUrl, {
