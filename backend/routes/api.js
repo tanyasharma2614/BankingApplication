@@ -1,5 +1,6 @@
 const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
+const adminController=require('../controllers/adminController');
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -17,6 +18,15 @@ function handleAPIRequest(req, res) {
       case 'email-alert':
         alertController.alert(req,res);
         break;
+      case 'insertPolicy':
+        adminController.insertPolicy(req,res);
+        break;
+      case 'insertPolicyRates':
+        adminController.insertPolicyRates(req,res);
+        break;
+      case 'locate_branch':
+        customerController.locate_branch(req, res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -24,25 +34,27 @@ function handleAPIRequest(req, res) {
     }
   } else if (req.method === 'GET'){
     switch (endpoint) {
-      case 'bankStatement':
-      customerController.bankStatement(req, res);
+      case 'accountActivity':
+        customerController.accountActivity(req, res);
       break;
-      case 'locate_branch':
-        customerController.locate_branch(req, res);
+        case 'bankStatement':
+        customerController.bankStatement(req, res);
         break;
-      case 'google-login':
-        customerController.google_login(req,res);
+      case 'getAllPolicyNames':
+        adminController.getAllPolicyNames(req,res);
         break;
-      case 'google-login-callback':
-          customerController.google_login_callback(req,res);
-          break;
+      case 'getPolicyDesc':
+        adminController.getPolicyDesc(req,res);
+        break;
+      case 'getAllPolicyRates':
+        adminController.getAllPolicyRates(req,res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }
-  else {
+  }else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }
