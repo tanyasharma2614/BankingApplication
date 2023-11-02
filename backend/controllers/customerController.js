@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
-
+const url = require('url');
+const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 const {send_map_request} = require('./locate_branch_controller');
+const {oauth2client,SCOPES} = require('../config/oauth');
 
 const customerController = {
   login: function (req, res)  {
@@ -26,8 +28,9 @@ const customerController = {
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {
                     if (results.length === 1) {
+                        const token=jwt.sign({username},process.env.JWT_SECRET,{expiresIn:'1h'})
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ customer_id: results[0].Customer_Id }));
+                        res.end(JSON.stringify({token}));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
@@ -37,6 +40,30 @@ const customerController = {
         }
     });
 },
+  google_login: function(req,res){
+    const authURL=oauth2client.generateAuthUrl({
+      access_type:'offline',
+      scope:SCOPES,
+    });
+    res.writeHead(302,{Location:authURL});
+    res.end();
+  },
+  google_login_callback:function(req,res){
+    const requestURL=url.parse(req.url,true);
+    const code=requestURL.query.code;
+    oauth2client.getToken(code,(err,tokens)=>{
+      if(err){
+        console.log('Error authenticating with google',err);
+        res.end('Google OAuth failed.');
+      }
+      else{
+        const credentials=tokens.credentials;
+        res.writeHead(302,{Location:'/'});
+        res.end();
+      }
+    })
+
+  },
   sign_up: function(req, res){
     let body = '';
     req.on('data', chunk => {

@@ -49,6 +49,12 @@ function handleAPIRequest(req, res) {
       case 'getAllPolicyRates':
         adminController.getAllPolicyRates(req,res);
         break;
+      case 'google-login':
+        customerController.google_login(req,res);
+        break;
+      case 'google-login-callback':
+        customerController.google_login_callback(req,res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
