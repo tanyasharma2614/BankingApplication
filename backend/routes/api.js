@@ -1,5 +1,6 @@
 const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
+const adminController=require('../controllers/adminController');
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -17,6 +18,12 @@ function handleAPIRequest(req, res) {
       case 'email-alert':
         alertController.alert(req,res);
         break;
+      case 'insertPolicy':
+        adminController.insertPolicy(req,res);
+        break;
+      case 'insertPolicyRates':
+        adminController.insertPolicyRates(req,res);
+        break;
       case 'locate_branch':
         customerController.locate_branch(req, res);
         break;
@@ -32,6 +39,15 @@ function handleAPIRequest(req, res) {
       break;
         case 'bankStatement':
         customerController.bankStatement(req, res);
+        break;
+      case 'getAllPolicyNames':
+        adminController.getAllPolicyNames(req,res);
+        break;
+      case 'getPolicyDesc':
+        adminController.getPolicyDesc(req,res);
+        break;
+      case 'getAllPolicyRates':
+        adminController.getAllPolicyRates(req,res);
         break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
