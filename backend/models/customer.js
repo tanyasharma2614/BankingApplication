@@ -27,7 +27,48 @@ const Customer={
                     AND Timestamp_Start >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
                     ORDER BY Timestamp_Start DESC;`;
         db.query(sql, callback); 
+    },
+
+    getCardNumberByCardId: function(cardId, callback){
+        // Note: Need to have the Card with the current cardId in the Cards table before this
+        const sql = `SELECT Card_Number FROM Cards
+                     WHERE Card_Id = ${cardId};`;
+        db.query(sql, callback); 
+    },
+
+    getCardStatus: function(cardId, callback) {
+        const sql = `SELECT Card_status FROM Cards WHERE Card_Id = ${cardId};`;
+        db.query(sql, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            }
+            if (result.length) {
+                return callback(null, result[0].Card_status);
+            } else {
+                return callback(new Error('Card not found'), null);
+            }
+        });
+    },    
+
+    updateCardStatus: function(cardId, newStatus, callback){
+        // Note: Need to have the Card with the current cardId in the Cards table before this
+        const sql = `UPDATE Cards
+                     SET Card_status = ${newStatus}
+                     WHERE Card_Id = ${cardId};`;
+        db.query(sql, callback); 
+    },
+    
+    getEmailByCardId: function(cardId, callback){
+        const sql = `
+            SELECT Customer.email
+            FROM Cards
+            JOIN Accounts ON Cards.account_number = Accounts.account_number
+            JOIN Customer ON Accounts.customer_id = Customer.customer_id
+            WHERE Cards.card_id = ${cardId};
+        `;
+        db.query(sql, callback);
     }
+
 };
 
 module.exports=Customer;

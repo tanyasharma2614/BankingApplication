@@ -1,6 +1,7 @@
 const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
+const reportCardController=require('../controllers/reportCardController');
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -27,6 +28,15 @@ function handleAPIRequest(req, res) {
       case 'locate_branch':
         customerController.locate_branch(req, res);
         break;
+      case 'confirmReportCard':
+          reportCardController.confirmReportCard(req,res);
+          break;
+      case 'deleteCard':
+          reportCardController.deleteCard(req,res);
+          break;
+        case 'reactivateCard':
+          reportCardController.reactivateCard(req,res);
+          break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -55,6 +65,9 @@ function handleAPIRequest(req, res) {
       case 'google-login-callback':
         customerController.google_login_callback(req,res);
         break;
+      case 'report-card':
+        reportCardController.reportCard(req,res);
+        break;  
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
