@@ -1,7 +1,7 @@
-const mysql=require('mysql');
+const mysql=require('mysql2');
 require('dotenv').config();
 const dbConfig={
-    host:'127.0.0.1',
+    host:'localhost',
     user:'root',
     password: 'password',
     database:'bank'

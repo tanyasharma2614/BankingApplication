@@ -1,5 +1,5 @@
 const https = require('https');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const url = require('url');
 const Admin = require('../models/admin');
 
