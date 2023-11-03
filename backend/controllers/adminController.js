@@ -191,25 +191,23 @@ const adminController = {
                 const Policy_Name = requestData['Policy_Name'];
                 const rate = parseInt(requestData['rate']);
 
-                if (!Policy_Name || !rate) {
+                if (!Policy_Name || isNaN(rate)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Missing Policy_Name or Rate in the request body' }));
-                }
-                else if(rate<0){
+                    res.end(JSON.stringify({ error: 'Missing or invalid Policy_Name or Rate in the request body' }));
+                } else if (rate < 0) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Rate cannot be negative' }));
-                }
-                else {
-                    Admin.insertpolicyrate(Policy_Name, rate, (error, results) => {
+                } else {
+                    Admin.updatepolicyrate(Policy_Name, rate, (error, results) => {
                         if (error) {
-                            console.error('Insert failed:', error);
+                            console.error('Policy Rate Update failed:', error);
                             res.writeHead(500, { 'Content-Type': 'application/json' });
-                            res.end(JSON.stringify({ message: 'Policy Rate Insert failed', error }));
+                            res.end(JSON.stringify({ message: 'Policy Rate Update failed', error }));
                         } else {
                             res.writeHead(200, { 'Content-Type': 'application/json' });
                             const responseData = {
                                 success: true,
-                                message: 'Data Inserted Successfully',
+                                message: 'Data Updated Successfully',
                                 data: { Policy_Name, rate },
                             };
                             res.end(JSON.stringify(responseData));
@@ -217,12 +215,13 @@ const adminController = {
                     });
                 }
             } catch (error) {
-                console.error('Business Policy Insert failed:', error);
+                console.error('Policy Rate Update failed:', error);
                 res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Policy Rate Insert failed', error }));
+                res.end(JSON.stringify({ message: 'Policy Rate Update failed', error }));
             }
         });
     }
+
 
 }
 

@@ -54,7 +54,18 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }else {
+  } else if (req.method==='PUT'){
+      switch (endpoint) {
+        case 'updatePolicyRate':
+          adminController.updatePolicyRate(req,res);
+          break;
+        default:
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Not Found' }));
+          break;
+      }
+    }
+  else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }

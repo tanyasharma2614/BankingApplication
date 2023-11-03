@@ -36,7 +36,7 @@ const admin={
         const sql = "INSERT INTO Policy_Rates (Policy_Name, rate) VALUES (?, ?)";
         db.query(sql, [Policy_Name, rate], callback);
     },
-    updatepolicyvalue: function (Policy_Name,rate, callback) {
+    updatepolicyrate: function (Policy_Name,rate, callback) {
         const sql = "UPDATE Policy_Rates SET rate = ? WHERE Policy_Name = ?";
         db.query(sql, [rate, Policy_Name], callback);
     },
