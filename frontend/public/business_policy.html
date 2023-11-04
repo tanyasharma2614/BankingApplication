@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Business Policy</title>
+</head>
+<body>
+<h1>Business Policy Details</h1>
+<div id="policyDetails"></div>
+
+<script>
+    // Function to extract query parameters from the URL
+    function getQueryParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // Get the policy name from the query parameter
+    const policyName = getQueryParameter('Policy_Name');
+
+    // Check if the policyName is not null
+    if (policyName) {
+        // Fetch policy details using the policy name
+        fetch(`http://localhost:8080/api/getPolicyDesc?policyname=${policyName}`)
+            .then(response => response.json())
+            .then(data => {
+                const policyDetails = document.getElementById('policyDetails');
+                if (data.success && data.data.length > 0) {
+                    const policyDesc = data.data[0].Policy_Desc;
+                    const details = document.createElement('p');
+                    details.textContent = `Policy Name: ${policyName}, Policy Description: ${policyDesc}`;
+                    policyDetails.appendChild(details);
+                } else {
+                    const message = document.createElement('p');
+                    message.textContent = 'Policy details not found.';
+                    policyDetails.appendChild(message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching policy details:', error);
+            });
+    } else {
+        // Handle the case when the query parameter is missing
+        const message = document.createElement('p');
+        message.textContent = 'Policy name not provided.';
+        document.getElementById('policyDetails').appendChild(message);
+    }
+</script>
+</body>
+</html>
