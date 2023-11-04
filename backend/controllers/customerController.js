@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 const {send_map_request} = require('./locate_branch_controller');
 const {oauth2client,SCOPES} = require('../config/oauth');
+const { google } = require('googleapis');
 
 const customerController = {
   login: function (req, res)  {
@@ -58,10 +59,38 @@ const customerController = {
       }
       else{
         const credentials=tokens.credentials;
-        res.writeHead(302,{Location:'/'});
-        res.end();
+        const oauth2 = google.oauth2({
+          auth: oauth2client,
+          version: 'v2',
+        });
+        oauth2client.setCredentials(tokens);
+        oauth2.userinfo.get((err,response)=>{
+          if(err){
+            console.error('Error getting user information from Google:', err);
+          res.end('Google OAuth failed. Please try again.');
+          }else{
+            const email=response.data.email;
+            Customer.validateGoogleLogin(email,(error,results)=>{
+              if(error){
+                console.error(error);
+                res.end('Google OAuth failed. Please try again');
+              }else{
+                if(results.length===1){
+                  const token=jwt.sign({email},process.env.JWT_SECRET,{expiresIn:'1h'});
+                  res.writeHead(302, {
+                    'Location': '/',
+                    'Content-Type': 'application/json',
+                  });
+                  res.end(JSON.stringify({ token }));
+                }else{
+                  res.end('Google OAuth failed. Email not found in our records.');
+                }
+              }
+            })
+          }
+        })
       }
-    })
+    });
 
   },
   sign_up: function(req, res){
