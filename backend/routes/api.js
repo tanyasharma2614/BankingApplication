@@ -1,6 +1,7 @@
 const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
+const transactionController=require('../controllers/transaction_controller')
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -49,7 +50,25 @@ function handleAPIRequest(req, res) {
       case 'getAllPolicyRates':
         adminController.getAllPolicyRates(req,res);
         break;
+      case 'google-login':
+        customerController.google_login(req,res);
+        break;
+      case 'google-login-callback':
+        customerController.google_login_callback(req,res);
+        break;
       default:
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+        break;
+    }
+  }
+  else if(req.method==='DELETE'){
+    switch(endpoint){
+      case 'trans-rev':
+        transactionController.revoke(req,res);
+        break;
+      default:
+        console.log('in delete')
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
