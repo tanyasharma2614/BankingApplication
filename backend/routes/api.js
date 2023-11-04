@@ -1,6 +1,7 @@
 const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
+const transactionController=require('../controllers/transaction_controller')
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -60,7 +61,20 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }else {
+  }
+  else if(req.method==='DELETE'){
+    switch(endpoint){
+      case 'trans-rev':
+        transactionController.revoke(req,res);
+        break;
+      default:
+        console.log('in delete')
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+        break;
+    }
+  }
+  else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }

@@ -32,6 +32,35 @@ const Customer={
                     AND Timestamp_Start >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
                     ORDER BY Timestamp_Start DESC;`;
         db.query(sql, callback); 
+    },
+
+    handleRevokedAmountTo:function(account_num_to,amount,callback){
+        const sql2 = `UPDATE Accounts
+                            SET Account_Balance = Account_Balance - ${amount}
+                            WHERE Account_Number=${account_num_to}`;
+        db.query(sql2,callback)
+    },
+
+    handleRevokedAmountFrom:function(account_num_from,amount,callback){
+        const sql1 = `UPDATE Accounts
+                    SET Account_Balance = Account_Balance + ${amount}
+                     WHERE Account_Number=${account_num_from}`;
+        db.query(sql1,callback);
+    },
+
+    revokeTransaction:function(customer_id,
+                               account_num_from,
+                               account_num_to,
+                               transaction_amount,
+                               transaction_id,
+                               callback){
+        const sql = `DELETE FROM Transactions
+                     WHERE Customer_Id=${customer_id}
+                     AND Account_Num_From=${account_num_from}
+                     AND Account_Num_To=${account_num_to}
+                     AND Transaction_Amount=${transaction_amount}
+                     AND Transaction_Id=${transaction_id}`;
+        db.query(sql,callback);
     }
 };
 
