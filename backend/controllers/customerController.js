@@ -108,11 +108,26 @@ const customerController = {
         //   'user-password-confirm': 'Pa$$w0rd!'
         // }
         const requestData = JSON.parse(body);
-        const cust_id = parseInt(requestData['c-id']);
-        const username = requestData['u-name'];
-        const password = await bcrypt.hash(requestData['user-password'], 10); // 10 is the number of salt rounds
+        // Obtain the reCAPTCHA response token from the request data
+        const recaptchaResponse = requestData['recaptchaResponse'];
 
-        console.log(`${cust_id}, ${username}, ${password}`)
+        // Verify reCAPTCHA response with Google's reCAPTCHA verification endpoint
+        const recaptchaSecretKey = '<Secret API key>'; // Replace with your reCAPTCHA secret key
+        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaResponse}`;
+        try {
+          const recaptchaVerificationResponse = await fetch(verificationUrl, {
+            method: 'POST'
+          });
+    
+          const recaptchaVerificationData = await recaptchaVerificationResponse.json();
+          console.log("Recaptcha Verification Response:  ",recaptchaVerificationData);
+          if (recaptchaVerificationData.success && recaptchaVerificationData.score >= 0.5 && recaptchaVerificationData.action === "submit") {
+            // reCAPTCHA verification successful, proceed with user signup
+            const cust_id = parseInt(requestData['c-id']);
+            const username = requestData['u-name'];
+            const password = await bcrypt.hash(requestData['user-password'], 10); // 10 is the number of salt rounds
+
+            console.log(`${cust_id}, ${username}, ${password}`)
     
         if (!cust_id || !username || !password) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -138,7 +153,17 @@ const customerController = {
           });
           
         }
-        
+          } else {
+            // reCAPTCHA verification failed, handle the error
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'reCAPTCHA verification failed' }));
+          }
+        } catch (error) {
+          // Handle fetch errors
+          console.error(error);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Internal Server Error' }));
+        }
         
     });
     
