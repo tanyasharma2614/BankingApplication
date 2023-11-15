@@ -19,6 +19,9 @@ function handleAPIRequest(req, res) {
       case 'email-alert':
         alertController.alert(req,res);
         break;
+      case 'discord-alert':
+        alertController.discordtext(req,res);
+        break;
       case 'insertPolicy':
         adminController.insertPolicy(req,res);
         break;
