@@ -1,7 +1,10 @@
 const bcrypt = require('bcrypt');
-
+const url = require('url');
+const jwt = require('jsonwebtoken');
 const Customer = require('../models/customer');
 const {send_map_request} = require('./locate_branch_controller');
+const {oauth2client,SCOPES} = require('../config/oauth');
+const { google } = require('googleapis');
 
 const customerController = {
   login: function (req, res)  {
@@ -26,8 +29,9 @@ const customerController = {
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {
                     if (results.length === 1) {
+                        const token=jwt.sign({username},process.env.JWT_SECRET,{expiresIn:'1h'})
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ customer_id: results[0].Customer_Id }));
+                        res.end(JSON.stringify({token}));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
@@ -37,6 +41,58 @@ const customerController = {
         }
     });
 },
+  google_login: function(req,res){
+    const authURL=oauth2client.generateAuthUrl({
+      access_type:'offline',
+      scope:SCOPES,
+    });
+    res.writeHead(302,{Location:authURL});
+    res.end();
+  },
+  google_login_callback:function(req,res){
+    const requestURL=url.parse(req.url,true);
+    const code=requestURL.query.code;
+    oauth2client.getToken(code,(err,tokens)=>{
+      if(err){
+        console.log('Error authenticating with google',err);
+        res.end('Google OAuth failed.');
+      }
+      else{
+        const credentials=tokens.credentials;
+        const oauth2 = google.oauth2({
+          auth: oauth2client,
+          version: 'v2',
+        });
+        oauth2client.setCredentials(tokens);
+        oauth2.userinfo.get((err,response)=>{
+          if(err){
+            console.error('Error getting user information from Google:', err);
+          res.end('Google OAuth failed. Please try again.');
+          }else{
+            const email=response.data.email;
+            Customer.validateGoogleLogin(email,(error,results)=>{
+              if(error){
+                console.error(error);
+                res.end('Google OAuth failed. Please try again');
+              }else{
+                if(results.length===1){
+                  const token=jwt.sign({email},process.env.JWT_SECRET,{expiresIn:'1h'});
+                  res.writeHead(302, {
+                    'Location': '/',
+                    'Content-Type': 'application/json',
+                  });
+                  res.end(JSON.stringify({ token }));
+                }else{
+                  res.end('Google OAuth failed. Email not found in our records.');
+                }
+              }
+            })
+          }
+        })
+      }
+    });
+
+  },
   sign_up: function(req, res){
     let body = '';
     req.on('data', chunk => {
@@ -52,11 +108,26 @@ const customerController = {
         //   'user-password-confirm': 'Pa$$w0rd!'
         // }
         const requestData = JSON.parse(body);
-        const cust_id = parseInt(requestData['c-id']);
-        const username = requestData['u-name'];
-        const password = await bcrypt.hash(requestData['user-password'], 10); // 10 is the number of salt rounds
+        // Obtain the reCAPTCHA response token from the request data
+        const recaptchaResponse = requestData['recaptchaResponse'];
 
-        console.log(`${cust_id}, ${username}, ${password}`)
+        // Verify reCAPTCHA response with Google's reCAPTCHA verification endpoint
+        const recaptchaSecretKey = '<Secret API key>'; // Replace with your reCAPTCHA secret key
+        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaResponse}`;
+        try {
+          const recaptchaVerificationResponse = await fetch(verificationUrl, {
+            method: 'POST'
+          });
+    
+          const recaptchaVerificationData = await recaptchaVerificationResponse.json();
+          console.log("Recaptcha Verification Response:  ",recaptchaVerificationData);
+          if (recaptchaVerificationData.success && recaptchaVerificationData.score >= 0.5 && recaptchaVerificationData.action === "submit") {
+            // reCAPTCHA verification successful, proceed with user signup
+            const cust_id = parseInt(requestData['c-id']);
+            const username = requestData['u-name'];
+            const password = await bcrypt.hash(requestData['user-password'], 10); // 10 is the number of salt rounds
+
+            console.log(`${cust_id}, ${username}, ${password}`)
     
         if (!cust_id || !username || !password) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -82,7 +153,17 @@ const customerController = {
           });
           
         }
-        
+          } else {
+            // reCAPTCHA verification failed, handle the error
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'reCAPTCHA verification failed' }));
+          }
+        } catch (error) {
+          // Handle fetch errors
+          console.error(error);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Internal Server Error' }));
+        }
         
     });
     

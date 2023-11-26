@@ -7,9 +7,14 @@ const Customer={
         db.query(sql,[username,password],callback);
     },
 
+    validateGoogleLogin:function(email,callback){
+        const sql='SELECT * FROM Customer WHERE email=?';
+        db.query(sql,[email],callback);
+    },
+
     signup: function(customer_id, username, password, callback){
         //Note: Need to have the Customer with the current customer_id in the Customer table before this
-        const sql="INSERT INTO Credentials (Customer_Id, User_Type, Username, Password) VALUES (" + customer_id + ", 'Customer', '" + username + "', '" + password + "')";
+        const sql="INSERT INTO Credentials (Customer_Id, User_Type, Username, Password) VALUES (" + customer_id + ", 'customer', '" + username + "', '" + password + "')";
         db.query(sql, callback); 
     },
     accountActivity: function(customer_id, callback){
