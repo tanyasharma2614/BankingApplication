@@ -27,6 +27,64 @@ const Customer={
                     AND Timestamp_Start >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
                     ORDER BY Timestamp_Start DESC;`;
         db.query(sql, callback); 
+    },
+    credit_card_payment: function(customer_id, account_num_from, account_num_to, transaction_amount, callback){
+        //Note: Need to have the follwing before executing this:
+        // 1 - Customer with the current customer_id in the Customer table
+        // 2 - Account with account_number_to in the Accounts table
+
+        const create_transaction = `INSERT INTO Transactions (Transaction_Type, Transaction_Amount, Customer_Id, Account_Num_From, Account_Num_To, Timestamp_Start, Timestamp_End) VALUES ("Credit", ${transaction_amount}, ${customer_id}, ${account_num_from}, ${account_num_to}, CURRENT_TIMESTAMP(), DATE_SUB(CURRENT_TIMESTAMP, INTERVAL -2 DAY));`;
+        
+        db.query(create_transaction, (error, results) => {
+
+            if(error){
+                callback(error, results);
+            }
+
+            //Reducing the payment amount from the from account
+            const update_balance = `UPDATE Accounts SET Account_Balance = Account_Balance - ${transaction_amount} WHERE Account_Number=${account_num_from};`;
+            
+            db.query(update_balance, (error, results) => {
+                
+                if(error){
+                    callback(error, results);
+                }
+
+                //Reducing the payment amount from the to account
+                const make_payment = `UPDATE Accounts SET Account_Balance = Account_Balance - ${transaction_amount} WHERE Account_Number=${account_num_to};`;
+                
+                db.query(make_payment, callback);
+            });
+        });
+        
+    },
+    handleRevokedAmountTo:function(account_num_to,amount,callback){
+        const sql2 = `UPDATE Accounts
+                            SET Account_Balance = Account_Balance - ${amount}
+                            WHERE Account_Number=${account_num_to}`;
+        db.query(sql2,callback)
+    },
+
+    handleRevokedAmountFrom:function(account_num_from,amount,callback){
+        const sql1 = `UPDATE Accounts
+                    SET Account_Balance = Account_Balance + ${amount}
+                     WHERE Account_Number=${account_num_from}`;
+        db.query(sql1,callback);
+    },
+
+    revokeTransaction:function(customer_id,
+                               account_num_from,
+                               account_num_to,
+                               transaction_amount,
+                               transaction_id,
+                               callback){
+        const sql = `DELETE FROM Transactions
+                     WHERE Customer_Id=${customer_id}
+                     AND Account_Num_From=${account_num_from}
+                     AND Account_Num_To=${account_num_to}
+                     AND Transaction_Amount=${transaction_amount}
+                     AND Transaction_Id=${transaction_id}`;
+        db.query(sql,callback);
     }
 };
 

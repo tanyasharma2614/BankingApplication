@@ -43,6 +43,7 @@ function send_map_request(request_body, res){
       map_res.on('end', () => {
         //Sending this json data to the map
         res.writeHead(200, { 'Content-Type': 'application/json' });
+        console.log(data);
         res.end(data);
       });
     });

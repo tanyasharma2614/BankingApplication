@@ -139,6 +139,63 @@ const customerController = {
 
    
   },
+  // A function to submit a payment for a credit card account
+  credit_card_payment: function(req, res){
+
+    let body = '';
+    
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    
+    req.on('end', () => {
+        console.log(`Data received on backend: ${body}`)
+
+        // The following is expected in the request
+        // 1 - Customer ID
+        // 2 - Account Number From
+        // 3 - Account Number To
+        // 4 - Transaction Amount
+
+        const request_data = JSON.parse(body);
+
+        try{
+
+          const customer_id = parseInt(request_data['customer_id']);
+          const account_num_from = parseInt(request_data['account_num_from']);
+          const account_num_to = parseInt(request_data['account_num_to']);
+          const transaction_amount = parseFloat(request_data['transaction_amount']);
+
+          Customer.credit_card_payment(customer_id, account_num_from, account_num_to, transaction_amount, (error, results) => {
+            
+            if(error){
+              console.error(error);
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            }
+            else{
+              console.log(`Result of credit card payment request: ${JSON.stringify(results)}`);
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              
+              const response_data = {
+                success: true,
+                message: 'Payment submitted Successfully'
+              };
+
+              res.end(JSON.stringify(response_data));
+            }
+          });
+        }
+        catch(error){
+          console.log(error);
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Missing parameters needed to submit payment' }));
+        }
+        
+        
+        
+    });
+  },
   bankStatement: function(req, res){
     let body = '';
     req.on('data', chunk => {

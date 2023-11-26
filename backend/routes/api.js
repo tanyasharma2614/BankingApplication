@@ -20,6 +20,9 @@ function handleAPIRequest(req, res) {
       case 'locate_branch':
         customerController.locate_branch(req, res);
         break;
+      case 'card_payment':
+        customerController.credit_card_payment(req, res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
