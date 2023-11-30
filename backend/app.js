@@ -95,6 +95,8 @@ const getFilePath = (fileName) => {
     'locate_branch.js': '../frontend/src/components/locate_branch.js',
     'sign-up.css': '../frontend/src/styles/sign-up.css',
     'business_policies.html' : '../frontend/public/business_policies.html',
+    'business_policies.js' : '../frontend/src/components/business_policies.js',
+    'business_policies.css' : '../frontend/src/components/business_policies.css',
     'business_policy.html' : '../frontend/public/business_policy.html'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
