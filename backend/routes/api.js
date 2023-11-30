@@ -34,6 +34,9 @@ function handleAPIRequest(req, res) {
       case 'card_payment':
         customerController.credit_card_payment(req, res);
         break;
+      case 'int-payment':
+        transactionController.international_payment(req,res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -68,18 +71,7 @@ function handleAPIRequest(req, res) {
         break;
     }
   }
-  else if(req.method==='DELETE'){
-    switch(endpoint){
-      case 'trans-rev':
-        transactionController.revoke(req,res);
-        break;
-      default:
-        console.log('in delete')
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Not Found' }));
-        break;
-    }
-  } else if (req.method==='PUT') {
+   else if (req.method==='PUT') {
     switch (endpoint) {
       case 'updatePolicy':
         adminController.updatePolicy(req, res);
@@ -94,6 +86,9 @@ function handleAPIRequest(req, res) {
     }
   } else if (req.method==='DELETE'){
     switch (endpoint) {
+      case 'trans-rev':
+        transactionController.revoke(req,res);
+        break;
       case 'deletePolicy':
         adminController.deletePolicy(req,res);
         break;

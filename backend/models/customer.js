@@ -90,6 +90,12 @@ const Customer={
                      AND Transaction_Amount=${transaction_amount}
                      AND Transaction_Id=${transaction_id}`;
         db.query(sql,callback);
+    },
+
+    findCustomerById: function(customer_id, callback) {
+        const sql = `SELECT * FROM transactions
+                     WHERE Customer_Id = ${customer_id}`;
+        db.query(sql, callback);
     }
 };
 
