@@ -96,8 +96,13 @@ const getFilePath = (fileName) => {
     'sign-up.css': '../frontend/src/styles/sign-up.css',
     'business_policies.html' : '../frontend/public/business_policies.html',
     'business_policies.js' : '../frontend/src/components/business_policies.js',
-    'business_policies.css' : '../frontend/src/components/business_policies.css',
-    'business_policy.html' : '../frontend/public/business_policy.html'
+    'business_policies.css' : '../frontend/src/styles/business_policies.css',
+    'policy_rates.html' : '../frontend/public/policy_rates.html',
+    'policy_rates.js' : '../frontend/src/components/policy_rates.js',
+    'policy_rates.css' : '../frontend/src/styles/policy_rates.css',
+    'admin_business_policies.html' : '../frontend/public/admin_business_policies.html',
+    'admin_business_policies.js' : '../frontend/src/components/admin_business_policies.js',
+    'admin_business_policies.css' : '../frontend/src/styles/admin_business_policies.css'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }
