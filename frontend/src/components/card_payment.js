@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // The rest of your script.js remains the same...
-function submit_form() {
+function submit_payment() {
 
     // Get selected values from dropdowns
     const customer_id = 1;
@@ -94,18 +94,25 @@ function submit_form() {
     const account_to = document.getElementById('account_to').value;
     const transaction_amount = document.getElementById('payment_amount').value;
 
+    console.log(customer_id);
+    console.log(account_from);
+    console.log(account_to);
+    console.log(transaction_amount);
+
+    const payload = {
+        "customer_id" : customer_id,
+        "account_num_from" : account_from,
+        "account_num_to" : account_to,
+        "transaction_amount" : transaction_amount
+    }
+
     //TODO: Check for invalid payment amount
     fetch("/api/card_payment", {
         method: "POST",
         headers: {
             "Content-Type":"application/json",
         },
-        body: {
-            "customer_id" : customer_id,
-            "account_num_from" : account_from,
-            "account_num_to" : account_to,
-            "transaction_amount" : transaction_amount
-        }
+        body: JSON.stringify(payload)
     })
     .then((response) => response.json())
     .then((data) => {
