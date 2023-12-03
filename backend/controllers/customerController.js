@@ -184,8 +184,12 @@ const customerController = {
         //   'user-password': 'Pa$$w0rd!',
         //   'user-password-confirm': 'Pa$$w0rd!'
         // }
-        const requestData = JSON.parse(body);
-        const cust_id = parseInt(requestData['c-id']);
+        
+        //const requestData = JSON.parse(body);
+        //const cust_id = parseInt(requestData['c-id']);
+
+        const requestURL = url.parse(req.url,true);
+        const cust_id = requestURL.query.cust_id;
 
         // console.log(`${cust_id}`)
     

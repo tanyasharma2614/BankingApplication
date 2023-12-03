@@ -93,9 +93,12 @@ const getFilePath = (fileName) => {
     'sign-up.js': '../frontend/src/components/sign-up.js',
     'login.js':'../frontend/src/components/login.js',
     'locate_branch.js': '../frontend/src/components/locate_branch.js',
+    'card_payment.js': '../frontend/src/components/card_payment.js',
     'sign-up.css': '../frontend/src/styles/sign-up.css',
     'business_policies.html' : '../frontend/public/business_policies.html',
-    'business_policy.html' : '../frontend/public/business_policy.html'
+    'business_policy.html' : '../frontend/public/business_policy.html',
+    'card_payment.html': '../frontend/public/card_payment.html',
+    'card_payment.css': '../frontend/src/styles/card_payment.css'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }
