@@ -3,57 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Policy Names</title>
-    <style>
-        /* CSS to style the boxes */
-        .list-item-box {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 5px 0;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="../src/styles/business_policies.css" id="css" />
 </head>
 <body>
-<h1>Business Policy Names</h1>
-<div id="policyList"></div>
-
-<script>
-    function fetchPolicyNames() {
-        fetch('http://localhost:8080/api/getAllPolicyNames')
-            .then(response => response.json())
-            .then(data => {
-                const policyList = document.getElementById('policyList');
-
-                if (data.success && data.data.length > 0) {
-                    data.data.forEach(policy => {
-                        const listItemBox = document.createElement('div');
-                        listItemBox.classList.add('list-item-box');
-
-                        const listItem = document.createElement('li');
-                        listItem.textContent = policy.Policy_Name;
-                        listItemBox.appendChild(listItem);
-
-                        listItemBox.addEventListener('click', () => {
-                            // Handle the click event by navigating to business_policy.html
-                            // and passing the policy name as a query parameter
-                            const policyName = encodeURIComponent(policy.Policy_Name);
-                            window.location.href = `business_policy.html?Policy_Name=${policyName}`;
-                        });
-
-                        policyList.appendChild(listItemBox);
-                    });
-                } else {
-                    const message = document.createElement('p');
-                    message.textContent = 'No policy names found.';
-                    policyList.appendChild(message);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching policy names:', error);
-            });
-    }
-
-    fetchPolicyNames();
-</script>
+<h1>Business Policies</h1>
+<div id="policyList" class="list-container"></div>
+<script type="text/javascript" src="../src/components/business_policies.js"></script>
 </body>
 </html>
