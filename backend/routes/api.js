@@ -71,21 +71,8 @@ function handleAPIRequest(req, res) {
         break;
     }
   }
-   else if (req.method==='PUT') {
-    switch (endpoint) {
-      case 'updatePolicy':
-        adminController.updatePolicy(req, res);
-        break;
-      case 'updatePolicyRate':
-        adminController.updatePolicyRate(req, res);
-        break;
-      default:
-        res.writeHead(404, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({error: 'Not Found'}));
-        break;
-    }
-  } else if (req.method==='DELETE'){
-    switch (endpoint) {
+  else if(req.method==='DELETE'){
+    switch(endpoint){
       case 'trans-rev':
         transactionController.revoke(req,res);
         break;
@@ -96,8 +83,23 @@ function handleAPIRequest(req, res) {
         adminController.deletePolicyRate(req,res);
         break;
       default:
+        console.log('in delete')
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
+        break;
+    }
+  } else if (req.method==='PUT') {
+
+    switch (endpoint) {
+      case 'updatePolicy':
+        adminController.updatePolicy(req, res);
+        break;
+      case 'updatePolicyRate':
+        adminController.updatePolicyRate(req, res);
+        break;
+      default:
+        res.writeHead(404, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({error: 'Not Found'}));
         break;
     }
   }
