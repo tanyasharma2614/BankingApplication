@@ -18,12 +18,34 @@ const Customer={
         db.query(sql, callback); 
     },
     accountActivity: function(customer_id, callback){
+
         //Note: Need to have the Customer with the current customer_id in the Customer table before this
         const sql=` SELECT * FROM Transactions
                     WHERE Customer_Id = ${customer_id}
                     ORDER BY Timestamp_Start DESC
                     LIMIT 10;`;
-        db.query(sql, callback); 
+
+        db.query(sql, (error, results) => {
+            
+            if(error){
+                callback(error, results);
+            }
+
+            const results_list = []
+
+            results_list.push(results);
+
+            // Getting the accounts information
+            const get_accounts = `SELECT * FROM Accounts WHERE Customer_Id =  ${customer_id};`;
+                
+            db.query(get_accounts, (error_new, results_new) => {
+
+                results_list.push(results_new);
+                callback(error_new, results_list);
+
+            });
+
+        }); 
     },
     bankStatement: function(customer_id, callback){
         //Note: Need to have the Customer with the current customer_id in the Customer table before this

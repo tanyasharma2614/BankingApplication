@@ -93,6 +93,7 @@ const getFilePath = (fileName) => {
     'sign-up.js': '../frontend/src/components/sign-up.js',
     'login.js':'../frontend/src/components/login.js',
     'locate_branch.js': '../frontend/src/components/locate_branch.js',
+    'card_payment.js': '../frontend/src/components/card_payment.js',
     'sign-up.css': '../frontend/src/styles/sign-up.css',
     'business_policies.html' : '../frontend/public/business_policies.html',
     'business_policies.js' : '../frontend/src/components/business_policies.js',
@@ -102,7 +103,10 @@ const getFilePath = (fileName) => {
     'policy_rates.css' : '../frontend/src/styles/policy_rates.css',
     'admin_business_policies.html' : '../frontend/public/admin_business_policies.html',
     'admin_business_policies.js' : '../frontend/src/components/admin_business_policies.js',
-    'admin_business_policies.css' : '../frontend/src/styles/admin_business_policies.css'
+    'admin_business_policies.css' : '../frontend/src/styles/admin_business_policies.css',
+    'business_policy.html' : '../frontend/public/business_policy.html',
+    'card_payment.html': '../frontend/public/card_payment.html',
+    'card_payment.css': '../frontend/src/styles/card_payment.css'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }
