@@ -11,12 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var list_of_account_balances = [];
     var list_of_account_types = [];
 
+    const auth_token = localStorage.getItem('auth_token');
+
     try{
 
         fetch("/api/accountActivity?cust_id=1", {
             method: "GET",
             headers: {
                 "Content-Type":"application/json",
+                "auth_token": auth_token
             }
         })
         .then((response) => response.json())
