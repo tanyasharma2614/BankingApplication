@@ -1,10 +1,29 @@
 const db=require('../config/database');
+const bcrypt = require('bcrypt');
 
 const Customer={
 
     validateLogin: function(username, password, callback){
-        const sql='SELECT * FROM Credentials WHERE username=? AND password=?';
-        db.query(sql,[username,password],callback);
+        const sql='SELECT * FROM Credentials WHERE username=?';
+        db.query(sql,[username],(err,results)=>{
+            if(err){
+                return callback(err,null);
+            }
+            if(results.length===0){
+                return callback(null,false,{message:'Username not found'});
+            }
+            const storedHashedPassword=results[0].Password;
+            bcrypt.compare(password,storedHashedPassword,(bcryptErr,isMatch)=>{
+                if(bcryptErr){
+                    return callback(bcryptErr,null);
+                }
+                if(isMatch){
+                    return callback(null,true,{message:'Login successful',user:results[0]});
+                }else{
+                    return callback(null,false,{message:'Incorrect password'});
+                }
+            });
+        });
     },
 
     validateGoogleLogin:function(email,callback){

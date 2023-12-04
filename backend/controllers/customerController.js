@@ -22,19 +22,26 @@ const customerController = {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Missing username or password in request data' }));
         } else {
-            Customer.validateLogin(username, password, (error, results) => {
+            Customer.validateLogin(username, password, (error,isValid, results) => {
                 if (error) {
                     console.error(error);
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {
-                    if (results.length === 1) {
+                    if (isValid) {
+                      const {Customer_Id, User_Type,Username, Password}=results.user;
                         const token=jwt.sign({username},process.env.JWT_SECRET,{expiresIn:'1h'})
                         res.writeHead(200, {
                           'Content-Type': 'application/json',
                           'Set-Cookie': `token=${token}; HttpOnly; Max-Age=${3600}; Secure; SameSite=Strict`
                       });
-                      res.end(JSON.stringify({ token }));
+                      res.end(JSON.stringify({ 
+                        success:true,
+                        message:'Login successful',
+                        user:{
+                          User_Type
+                        },
+                       }));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
