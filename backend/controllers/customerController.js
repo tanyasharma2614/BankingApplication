@@ -30,18 +30,18 @@ const customerController = {
                 } else {
                     if (isValid) {
                       const {Customer_Id, User_Type,Username, Password}=results.user;
-                        const token=jwt.sign({username},process.env.JWT_SECRET,{expiresIn:'1h'})
-                        res.writeHead(200, {
-                          'Content-Type': 'application/json',
-                          'Set-Cookie': `token=${token}; HttpOnly; Max-Age=${3600}; Secure; SameSite=Strict`
+                        
+                      const token = jwt.sign({Customer_Id}, "enc_key", {expiresIn:'1h'})
+
+                      res.writeHead(200, {
+                        'Content-Type': 'application/json'
                       });
                       res.end(JSON.stringify({ 
                         success:true,
                         message:'Login successful',
-                        user:{
-                          User_Type
-                        },
-                       }));
+                        user: User_Type,
+                        token: token
+                      }));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
@@ -197,9 +197,14 @@ const customerController = {
         
         //const requestData = JSON.parse(body);
         //const cust_id = parseInt(requestData['c-id']);
+        //const requestURL = url.parse(req.url,true);
 
-        const requestURL = url.parse(req.url,true);
-        const cust_id = requestURL.query.cust_id;
+        //Using the JWT
+        const token = req.headers.auth_token;
+
+        const cust_id = jwt.decode(token).Customer_Id;
+
+        //console.log(cust_id);
 
         // console.log(`${cust_id}`)
     
@@ -256,7 +261,7 @@ const customerController = {
 
         try{
 
-          const customer_id = parseInt(request_data['customer_id']);
+          const customer_id = parseInt(jwt.decode(request_data['customer_id']).Customer_Id);
           const account_num_from = parseInt(request_data['account_num_from']);
           const account_num_to = parseInt(request_data['account_num_to']);
           const transaction_amount = parseFloat(request_data['transaction_amount']);

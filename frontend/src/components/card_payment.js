@@ -1,7 +1,7 @@
 var map_of_from_balances = {};
 var map_of_to_balances = {};
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
 
     //Event Listeners
     document.getElementById('account_from').addEventListener('change', account_from_drop_down_closed);
@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var list_of_account_balances = [];
     var list_of_account_types = [];
 
-    const auth_token = localStorage.getItem('auth_token');
+    const auth_token = await localStorage.getItem('auth_token');
 
     try{
 
-        fetch("/api/accountActivity?cust_id=1", {
+        fetch("/api/accountActivity", {
             method: "GET",
             headers: {
                 "Content-Type":"application/json",
@@ -101,11 +101,11 @@ function account_to_drop_down_closed(){
     document.getElementById('account_balance_to').textContent = map_of_to_balances[document.getElementById('account_to').value].toFixed(2);
 }
 
-function submit_payment() {
+async function submit_payment() {
 
     // Get selected values from dropdowns
-    //TODO: Take the customer ID from JWT
-    const customer_id = 1;
+
+    const customer_id = await localStorage.getItem('auth_token');
     const account_from = document.getElementById('account_from').value;
     const account_to = document.getElementById('account_to').value;
     const transaction_amount = document.getElementById('payment_amount').value;
@@ -154,6 +154,7 @@ function submit_payment() {
     .then((data) => {
         console.log(data);
         window.alert('Money transferred successfully!');
+        window.location.href = "/card_payment.html";
     })
     .catch((err) => {
         console.log(err);
