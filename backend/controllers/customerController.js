@@ -30,8 +30,11 @@ const customerController = {
                 } else {
                     if (results.length === 1) {
                         const token=jwt.sign({username},process.env.JWT_SECRET,{expiresIn:'1h'})
-                        res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({token}));
+                        res.writeHead(200, {
+                          'Content-Type': 'application/json',
+                          'Set-Cookie': `token=${token}; HttpOnly; Max-Age=${3600}; Secure; SameSite=Strict`
+                      });
+                      res.end(JSON.stringify({ token }));
                     } else {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Unauthorized' }));
