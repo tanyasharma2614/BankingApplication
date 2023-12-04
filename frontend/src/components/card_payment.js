@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     list_of_from_account_numbers.push(list_of_account_numbers[i]);
                     map_of_from_balances[list_of_account_numbers[i]] = list_of_account_balances[i];
                 }
-                else if(list_of_account_types[i] === 2){
+                else if(list_of_account_types[i] === 1){
                     list_of_to_account_numbers.push(list_of_account_numbers[i]);
                     map_of_to_balances[list_of_account_numbers[i]] = list_of_account_balances[i];
                 }
