@@ -1,4 +1,11 @@
+var map_of_from_balances = {};
+var map_of_to_balances = {};
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    //Event Listeners
+    document.getElementById('account_from').addEventListener('change', account_from_drop_down_closed);
+    document.getElementById('account_to').addEventListener('change', account_to_drop_down_closed);
 
     var list_of_account_numbers = [];
     var list_of_account_balances = [];
@@ -27,9 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             var list_of_from_account_numbers = [];
-            var map_of_from_balances = {};
             var list_of_to_account_numbers = [];
-            var map_of_to_balances = {};
             
             for (var i = 0; i < list_of_account_types.length; i++){
 
@@ -85,10 +90,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// The rest of your script.js remains the same...
+function account_from_drop_down_closed(){
+    document.getElementById('account_balance_from').textContent = map_of_from_balances[document.getElementById('account_from').value].toFixed(2);
+}
+
+function account_to_drop_down_closed(){
+    document.getElementById('account_balance_to').textContent = map_of_to_balances[document.getElementById('account_to').value].toFixed(2);
+}
+
 function submit_payment() {
 
     // Get selected values from dropdowns
+    //TODO: Take the customer ID from JWT
     const customer_id = 1;
     const account_from = document.getElementById('account_from').value;
     const account_to = document.getElementById('account_to').value;
@@ -99,6 +112,27 @@ function submit_payment() {
     console.log(account_to);
     console.log(transaction_amount);
 
+    //Checking for invalid payment amounts
+    var amount = 0;
+
+    try {
+        amount = parseFloat(transaction_amount)
+    }
+    catch (err){
+        window.alert("The transaction amount is invalid.");
+        return;
+    }
+
+    if(amount > parseFloat(document.getElementById('account_balance_from').textContent)){
+        window.alert("The sending account doesn't have sufficient funds.");
+        return;
+    }
+
+    if(amount <= 0){
+        window.alert("The transaction can't be negative or zero.");
+        return;
+    }
+
     const payload = {
         "customer_id" : customer_id,
         "account_num_from" : account_from,
@@ -106,7 +140,6 @@ function submit_payment() {
         "transaction_amount" : transaction_amount
     }
 
-    //TODO: Check for invalid payment amount
     fetch("/api/card_payment", {
         method: "POST",
         headers: {

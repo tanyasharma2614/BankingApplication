@@ -12,10 +12,10 @@
         <h1>Credit Card Payment</h1>
         <form id="payment_form">
             <label for="account_from">Select Account From:</label>
-            <select id="account_from" name="account_from"></select>
+            <select id="account_from" name="account_from" onchange="account_from_drop_down_closed"></select>
 
             <label for="account_to">Select Credit Card Account:</label>
-            <select id="account_to" name="account_to"></select>
+            <select id="account_to" name="account_to" onchange="account_to_drop_down_closed"></select>
 
             <p>Account Balance in the sending account: <span id="account_balance_from"></span></p>
             <p>Payment due in the credit card account: <span id="account_balance_to"></span></p>
