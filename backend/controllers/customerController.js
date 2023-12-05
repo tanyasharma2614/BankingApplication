@@ -88,7 +88,7 @@ const customerController = {
                 if(results.length===1){
                   const token=jwt.sign({email},process.env.JWT_SECRET,{expiresIn:'1h'});
                   res.writeHead(302, {
-                    'Location': '/',
+                    'Location': '/customer_dashboard.html',
                     'Content-Type': 'application/json',
                   });
                   res.end(JSON.stringify({ token }));
