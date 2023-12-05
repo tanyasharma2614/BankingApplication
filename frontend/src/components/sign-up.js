@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
   const handleFormSubmission = async (event) => {
     event.preventDefault();
+
+    const recaptchaResponse = await grecaptcha.execute('API site key', { action: 'submit' });
     // Get the password and confirm password input values
     const password = document.getElementById("user-password").value;
     const confirmPassword = document.getElementById("user-password-confirm").value;
-
+    const errorDivConfirm = document.getElementById("confirmError");
+    errorDivConfirm.innerHTML = "";
     // Compare the password and confirm password values
     if (password !== confirmPassword) {
       // Passwords do not match, prevent form submission and show error message
       const errorDivConfirm = document.getElementById("confirmError");
-      errorDivConfirm.textContent = "Password and Confirm Password must be the same.";
+      errorDivConfirm.innerHTML = "Password and Confirm Password must be the same.";
     } else {
       try {
         // If passwords match, the form will be submitted as usual
@@ -20,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.forEach((value, key) => {
           formDataObject[key] = value;
         });
-
-        // console.log(`Data SENT to backend: ${JSON.stringify(formDataObject)}`)
+        formDataObject.recaptchaResponse = recaptchaResponse; 
+        console.log(`Data SENT to backend: ${JSON.stringify(formDataObject)}`)
         const response = await fetch("/api/signup", {
           method: "POST",
           headers: {
@@ -37,6 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
           // console.log(response)
           const result = await response.json();
           console.log(`Result of post: ${JSON.stringify(result, null, 2)}`);
+          const errorDivConfirm = document.getElementById("confirmError");
+          errorDivConfirm.textContent = "";
+          window.alert(`User created successfully!`);
           // // Successful response, navigate to a different link
           // window.location.href = "/success-page.html";
 

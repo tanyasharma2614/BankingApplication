@@ -1,6 +1,7 @@
 const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
+const transactionController=require('../controllers/transaction_controller')
 const { parse } = require('querystring');
 
 function handleAPIRequest(req, res) {
@@ -18,6 +19,9 @@ function handleAPIRequest(req, res) {
       case 'email-alert':
         alertController.alert(req,res);
         break;
+      case 'discord-alert':
+        alertController.discordtext(req,res);
+        break;
       case 'insertPolicy':
         adminController.insertPolicy(req,res);
         break;
@@ -26,6 +30,12 @@ function handleAPIRequest(req, res) {
         break;
       case 'locate_branch':
         customerController.locate_branch(req, res);
+        break;
+      case 'card_payment':
+        customerController.credit_card_payment(req, res);
+        break;
+      case 'int-payment':
+        transactionController.international_payment(req,res);
         break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -60,7 +70,40 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }else {
+  }
+  else if(req.method==='DELETE'){
+    switch(endpoint){
+      case 'trans-rev':
+        transactionController.revoke(req,res);
+        break;
+      case 'deletePolicy':
+        adminController.deletePolicy(req,res);
+        break;
+      case 'deletePolicyRate':
+        adminController.deletePolicyRate(req,res);
+        break;
+      default:
+        console.log('in delete')
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+        break;
+    }
+  } else if (req.method==='PUT') {
+
+    switch (endpoint) {
+      case 'updatePolicy':
+        adminController.updatePolicy(req, res);
+        break;
+      case 'updatePolicyRate':
+        adminController.updatePolicyRate(req, res);
+        break;
+      default:
+        res.writeHead(404, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({error: 'Not Found'}));
+        break;
+    }
+  }
+  else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }

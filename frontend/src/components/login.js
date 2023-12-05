@@ -26,9 +26,19 @@ document.addEventListener("DOMContentLoaded",function(){
           console.log(response);
           if (response.ok) {
             const data = await response.json();
-            console.log("Login Successful"); 
+            console.log("Login Successful");
+
+            localStorage.setItem("auth_token", data.token);
+
             window.alert("Success");
-            window.location.href = '#';
+
+            if(data.user === "Customer"){
+              window.location.href = '/customer_dashboard.html';
+            }
+            else if(data.user === "Teller"){
+              //Change it to teller dashboard once ready
+              window.location.href = '/customer_dashboard.html';
+            }
           } else {
             const errorData = await response.json();
             console.error("Login API request failed with status: " + response.status);
