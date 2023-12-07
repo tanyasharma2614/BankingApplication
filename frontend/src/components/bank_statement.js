@@ -42,13 +42,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
           var transaction_info = transactionDetails[i];
           // Check if the account number is already in the map
-          if (map_of_transactions[transaction_info.Account_Num_From]) {
-            // If it is, push the transaction_info to the existing array
-            map_of_transactions[transaction_info.Account_Num_From].push(transaction_info);
-          } else {
-            // If not, create a new entry with an array containing the current transaction_info
-            map_of_transactions[transaction_info.Account_Num_From] = [transaction_info];
+          const accountNumFrom = transaction_info.Account_Num_From;
+          const accountNumTo = transaction_info.Account_Num_To;
+
+          if (!map_of_transactions[accountNumFrom]) {
+            map_of_transactions[accountNumFrom] = [];
           }
+
+          if (!map_of_transactions[accountNumTo]) {
+            map_of_transactions[accountNumTo] = [];
+          }
+
+          // In either case, push the transaction_info to the array
+          map_of_transactions[accountNumFrom].push(transaction_info);
+          map_of_transactions[accountNumTo].push(transaction_info);
       }
       const current_act = document.getElementById('accountDropdown').value
       if (current_act){
