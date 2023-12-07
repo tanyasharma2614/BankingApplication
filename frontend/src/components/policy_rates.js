@@ -2,16 +2,83 @@
 
 console.log('Policy Rates Script Loaded!');
 
+let isInsertRowOpen = false;
 document.addEventListener("DOMContentLoaded", function () {
     fetchPolicyRates();
 });
+
 function openInsertDialog() {
-    // Prompt for new rate and value
-    const newRate = prompt('Enter new name:');
-    const newValue = prompt('Enter new rate:');
-    if (newRate !== null && newValue !== null) {
-        insertPolicyRate({ Policy_Name: newRate, rate: parseInt(newValue) });
+    if (!isInsertRowOpen) {
+        const newRow = createInsertRow();
+        const policyRatesTable = document.getElementById('policyRatesTable');
+        policyRatesTable.appendChild(newRow);
+        isInsertRowOpen = true;
     }
+}
+function createInput(type, id, placeholder) {
+    const input = document.createElement('input');
+    input.type = type;
+    input.id = id;
+    input.placeholder = placeholder;
+    return input;
+}
+
+function createInsertRow() {
+    const newRow = document.createElement('tr');
+    newRow.classList.add('insert-row'); // Add a class to style the insert row differently
+
+    // Create input field for Policy_Name
+    const policyNameInput = createInput('text', 'policyNameInput', 'Enter Policy Name');
+    const policyNameCell = document.createElement('td');
+    policyNameCell.appendChild(policyNameInput);
+    newRow.appendChild(policyNameCell);
+
+    // Create input field for rate
+    const rateInput = createInput('number', 'rateInput', 'Enter Rate');
+    const rateCell = document.createElement('td');
+    rateCell.appendChild(rateInput);
+    newRow.appendChild(rateCell);
+
+    // Create buttons for Save and Cancel
+    const saveButton = createButton('Save', 'insert-button save-button');
+    saveButton.addEventListener('click', () => {
+        saveNewPolicyRate(policyNameInput.value.trim(), rateInput.value.trim(), newRow);
+    });
+
+    const cancelButton = createButton('Cancel', 'insert-button cancel-button');
+    cancelButton.addEventListener('click', () => {
+        newRow.remove(); // Remove the new row on cancel
+        isInsertRowOpen = false;
+    });
+
+    const actionCell = document.createElement('td');
+    actionCell.appendChild(saveButton);
+    actionCell.appendChild(cancelButton);
+    newRow.appendChild(actionCell);
+
+    return newRow;
+}
+
+function createButton(text, className) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.className = className;
+    return button;
+}
+function saveNewPolicyRate(policyName, rate, newRow) {
+    // Perform validation if needed
+    if (!policyName || !rate) {
+        alert('Please enter both Policy Name and Rate.');
+        return;
+    }
+    isInsertRowOpen = false;
+
+    const newPolicyRate = {
+        Policy_Name: policyName,
+        rate: parseFloat(rate)
+    };
+
+    insertPolicyRate(newPolicyRate, newRow);
 }
 function fetchPolicyRates() {
     const policyRatesTable = document.getElementById('policyRatesTable');
