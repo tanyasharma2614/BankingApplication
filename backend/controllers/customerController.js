@@ -134,15 +134,14 @@ const customerController = {
           if (recaptchaVerificationData.success && recaptchaVerificationData.score >= 0.5 && recaptchaVerificationData.action === "submit") {
             // reCAPTCHA verification successful, proceed with user signup
               const token = req.headers['authorization'].split(' ')[1];
-            //   console.log(token)
               let cust_id;
               if (!token) {
-                return res.redirect('/error'); // Redirect to error page if token is missing
+                console.log("No Token"); // Redirect to error page if token is missing
               }
 
               jwt.verify(token, 'enc_key', (err, decoded) => {
                 if (err) {
-                  return res.redirect('/error'); // Redirect to error page if token is invalid
+                  console.log("Token Invalid") // Redirect to error page if token is invalid
                 }
 
                 cust_id = decoded.Customer_Id;
