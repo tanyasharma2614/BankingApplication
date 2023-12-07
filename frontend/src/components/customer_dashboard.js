@@ -96,12 +96,25 @@ document.addEventListener("DOMContentLoaded", function () {
             const cell2 = row.insertCell(2);
             const cell3 = row.insertCell(3);
             const cell4 = row.insertCell(4);
+            const cell5 = row.insertCell(5);
             
             cell0.textContent = formatDateFromTimestamp(transaction.Timestamp_Start);
             cell1.textContent = transaction.Transaction_Type;
             cell2.textContent = transaction.Transaction_Amount.toFixed(2);
             cell3.textContent = transaction.Account_Num_From;
             cell4.textContent = transaction.Account_Num_To;
+            
+            var button = document.createElement("button");
+            button.textContent = "Click here to revoke"; 
+            button.classList.add("revokeText")
+
+            button.onclick = function() {
+                // Add your action here
+                revokeCurrentTransaction(transaction);
+            };
+
+            // Append the button to the cell
+            cell5.appendChild(button);
 
           });
         }
@@ -130,4 +143,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
   });
+
+    function revokeCurrentTransaction(transaction){
+
+      const payload = {
+        "customerId" : transaction.Customer_Id,
+        "accountFrom" : transaction.Account_Num_From,
+        "accountTo" : transaction.Account_Num_To,
+        "transactionAmount" : transaction.Transaction_Amount,
+        "transactionID":transaction.Transaction_Id
+    }
+
+      fetch("/api/trans-rev", {
+        method: "DELETE",
+        headers: {
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify(payload)
+      })
+      .then((response) => {
+        if(!response.ok){
+          document.getElementsByClassName("error")[0].style.display="block";
+          document.getElementsByClassName("error")[0].textContent=`${response.statusText}, please contact admin`;
+        }
+        else{
+          alert("Transaction revoked successfully")
+          window.location.reload();
+        }
+      }).catch((error)=>{
+        alert(error);
+      }
+
+      )
+  }
   

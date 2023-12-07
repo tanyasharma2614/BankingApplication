@@ -217,3 +217,22 @@ table thead tr{
   color: #fff;
   transition: 0.5rem;
 }
+.error {
+  color: #D8000C; 
+  background-color: #FFD2D2; 
+  font-weight: bold;
+  font-size: 1em;
+  padding: 10px; 
+  border: 1px solid #D8000C; 
+  border-radius: 4px; 
+  margin: 10px 0; 
+  box-shadow: 0px 0px 10px rgba(216, 0, 12, 0.2); 
+  display: inline-block; 
+  max-width: 100%; 
+  box-sizing: border-box; 
+  font-family: Arial, sans-serif; 
+}
+
+.revokeText{
+  color: #D8000C !important;
+}

@@ -21,6 +21,8 @@
               <label for="accountDropdown">Select an account:</label>
               <select id="accountDropdown"></select>
               <p>Account Balance in the selected account: <span id="account_balance"></span></p>
+              <div class="error" style="display: none;">
+              </div>
               <table class="table">
                 <thead>
                   <tr>
@@ -29,6 +31,7 @@
                     <th>Transaction Amount</th>
                     <th>Account Number From</th>
                     <th>Account Number To</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
