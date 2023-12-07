@@ -21,6 +21,42 @@
             <label for="accountDropdown">Select an account:</label>
             <select id="accountDropdown"></select>
             <p>Account Balance in the selected account: <span id="account_balance"></span></p>
+            <label for="monthSelect">Select a month:</label>
+            <select id="monthSelect"></select>
+            <script>
+              // Get the select element
+              const monthSelect = document.getElementById('monthSelect');
+            
+              // Create an array of months
+              const months = [
+                'January', 'February', 'March', 'April',
+                'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'
+              ];
+              // Function to get the last three months as an array of objects
+              function getLastThreeMonths() {
+                const currentDate = new Date();
+                const lastThreeMonths = [];
+
+                for (let i = 2; i >= 0; i--) {
+                  const monthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                  lastThreeMonths.push({
+                    value: monthDate.getMonth() + 1,
+                    label: monthDate.toLocaleString('default', { month: 'long' })
+                  });
+                }
+
+                return lastThreeMonths;
+              }
+            
+              // Populate the select dropdown with options for the last three months
+              getLastThreeMonths().forEach(month => {
+                const option = document.createElement('option');
+                option.value = month.value.toString(); // Numeric value of the month
+                option.textContent = month.label; // Month name
+                monthSelect.appendChild(option);
+              });
+            </script>
             <table class="table">
               <thead>
                 <tr>
