@@ -1,48 +1,18 @@
-<span style="font-family: verdana, geneva, sans-serif;"><!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <title>Account Activity</title>
-      <link rel="stylesheet" href="../src/styles/customerDashboard.css" />
-      <!-- Font Awesome Cdn Link -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-      <script src="../src/components/customerDashboard.js"></script>
-    </head>
-    <body>
-      <div class="container">
-   
-        <section class="main">
-          <div class="main-top">
-            <h1>Account Activity</h1>
-          </div>
-          
-          <section class="act">
-            <div class="accountActivity">
-              <label for="accountDropdown">Select an account:</label>
-              <select id="accountDropdown"></select>
-              <p>Account Balance in the selected account: <span id="account_balance"></span></p>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Transaction Type</th>
-                    <th>Transaction Amount</th>
-                    <th>Account Number From</th>
-                    <th>Account Number To</th>
-                  </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-              </table>
-              
-            </div>
-          </section>
-  
-          <button id="credit_card_payment">Make a Credit Card Payment</button>
-          <button id="bank_statement">Bank Statements</button>
-        </section>
-      </div>
-    
-    </body>
-    </html>
-    </span>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/styles/card_payment.css">
+    <title>Bank Account Dashboard</title>
+    <script src="../src/components/customer_dashboard.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome to Your Bank Account Dashboard</h1>
+        <p>Your current balance: $1,000.00</p>
+        <button id="credit_card_payment">Make a Credit Card Payment</button>
+        <button id="bank_statement">Bank Statements</button>
+    </div>
+</body>
+</html>
