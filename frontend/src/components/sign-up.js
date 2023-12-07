@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer "+localStorage.getItem("auth_token")
           },
           body: JSON.stringify(formDataObject),
         });
-
         if (!response.ok) {
           // Handle non-successful responses (e.g., 404 Not Found, 500 Internal Server Error)
           window.alert(`HTTP error! Status: ${response.status}`)

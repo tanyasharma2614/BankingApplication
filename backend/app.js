@@ -113,6 +113,9 @@ const getFilePath = (fileName) => {
     'bank_statement.html': '../frontend/public/bank_statement.html',
     'bank_statement.css': '../frontend/src/styles/bank_statement.css',
     'bank_statement.js': '../frontend/src/components/bank_statement.js',
+    'bank_teller.html': '../frontend/public/bank_teller.html',
+    'bank_teller.css': '../frontend/src/styles/bank_teller.css',
+    'bank_teller.js': '../frontend/src/components/bank_teller.js',
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }

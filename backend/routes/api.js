@@ -15,6 +15,9 @@ function handleAPIRequest(req, res) {
       case 'login':
         customerController.login(req, res);
         break;
+      case 'bankTeller':
+      customerController.bank_teller(req, res);
+      break;
       case 'signup':
         customerController.sign_up(req, res);
         break;
