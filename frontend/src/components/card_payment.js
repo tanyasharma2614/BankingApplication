@@ -104,11 +104,21 @@ function account_to_drop_down_closed(){
 async function submit_payment() {
 
     // Get selected values from dropdowns
-
-    const customer_id = await localStorage.getItem('auth_token');
-    const account_from = document.getElementById('account_from').value;
-    const account_to = document.getElementById('account_to').value;
-    const transaction_amount = document.getElementById('payment_amount').value;
+    var customer_id;
+    var account_from;
+    var account_to;
+    var transaction_amount;
+    
+    try{
+        customer_id = await localStorage.getItem('auth_token');
+        account_from = document.getElementById('account_from').value;
+        account_to = document.getElementById('account_to').value;
+        transaction_amount = document.getElementById('payment_amount').value;
+    }
+    catch(err){
+        window.alert("The account selection is invalid for a transfer to be processed.");
+        return;
+    }
 
     console.log(customer_id);
     console.log(account_from);
