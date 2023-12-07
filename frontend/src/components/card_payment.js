@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     var list_of_account_balances = [];
     var list_of_account_types = [];
 
-    const auth_token = await localStorage.getItem('auth_token');
+    // const auth_token = await localStorage.getItem('auth_token');
 
     try{
 
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             method: "GET",
             headers: {
                 "Content-Type":"application/json",
-                "auth_token": auth_token
+                "Authorization": "Bearer "+localStorage.getItem("auth_token")
             }
         })
         .then((response) => response.json())
@@ -157,6 +157,7 @@ async function submit_payment() {
         method: "POST",
         headers: {
             "Content-Type":"application/json",
+            "Authorization": "Bearer "+localStorage.getItem("auth_token")
         },
         body: JSON.stringify(payload)
     })

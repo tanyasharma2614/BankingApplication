@@ -122,7 +122,7 @@ const customerController = {
         const recaptchaResponse = requestData['recaptchaResponse'];
 
         // Verify reCAPTCHA response with Google's reCAPTCHA verification endpoint
-        const recaptchaSecretKey = '<Secret API key>'; // Replace with your reCAPTCHA secret key
+        const recaptchaSecretKey = '6Lf-Su4oAAAAAKfgFAEh39SXBJFVzqs5Qrt3cVFe'; // Replace with your reCAPTCHA secret key
         const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptchaResponse}`;
         try {
           const recaptchaVerificationResponse = await fetch(verificationUrl, {
@@ -133,7 +133,21 @@ const customerController = {
           console.log("Recaptcha Verification Response:  ",recaptchaVerificationData);
           if (recaptchaVerificationData.success && recaptchaVerificationData.score >= 0.5 && recaptchaVerificationData.action === "submit") {
             // reCAPTCHA verification successful, proceed with user signup
-            const cust_id = parseInt(requestData['c-id']);
+              const token = req.headers['authorization'].split(' ')[1];
+            //   console.log(token)
+              let cust_id;
+              if (!token) {
+                return res.redirect('/error'); // Redirect to error page if token is missing
+              }
+
+              jwt.verify(token, 'enc_key', (err, decoded) => {
+                if (err) {
+                  return res.redirect('/error'); // Redirect to error page if token is invalid
+                }
+
+                cust_id = decoded.Customer_Id;
+              });
+            // const cust_id = parseInt(requestData['c-id']);
             const username = requestData['u-name'];
             const password = await bcrypt.hash(requestData['user-password'], 10); // 10 is the number of salt rounds
 
@@ -186,23 +200,7 @@ const customerController = {
       body += chunk;
     });
     req.on('end', async () => {
-        console.log(`Data received on backend: ${body}`)
-        // Expected data from frontend
-        // {
-        //   'c-id': 'Aperiam libero volup',
-        //   'u-name': 'Kaitlin Mcintosh',
-        //   'user-password': 'Pa$$w0rd!',
-        //   'user-password-confirm': 'Pa$$w0rd!'
-        // }
-        
-        //const requestData = JSON.parse(body);
-        //const cust_id = parseInt(requestData['c-id']);
-        //const requestURL = url.parse(req.url,true);
-
-        //Using the JWT
-        const token = req.headers.auth_token;
-
-        const cust_id = jwt.decode(token).Customer_Id;
+        const cust_id = req.customerId;
 
         //console.log(cust_id);
 
@@ -220,7 +218,7 @@ const customerController = {
               res.end(JSON.stringify({ error: 'Internal Server Error' }));
             }
             else{
-              console.log(`Result of get query: ${JSON.stringify(results)}`);
+              // console.log(`Result of get query: ${JSON.stringify(results)}`);
               res.writeHead(200, { 'Content-Type': 'application/json' });
               const responseData = {
                 success: true,
@@ -261,7 +259,7 @@ const customerController = {
 
         try{
 
-          const customer_id = parseInt(jwt.decode(request_data['customer_id']).Customer_Id);
+          const customer_id = parseInt(req.customerId);
           const account_num_from = parseInt(request_data['account_num_from']);
           const account_num_to = parseInt(request_data['account_num_to']);
           const transaction_amount = parseFloat(request_data['transaction_amount']);
@@ -297,24 +295,14 @@ const customerController = {
     });
   },
   bankStatement: function(req, res){
+    
     let body = '';
     req.on('data', chunk => {
       body += chunk;
     });
     req.on('end', async () => {
-        console.log(`Data received on backend: ${body}`)
-        // Expected data from frontend
-        // {
-        //   'c-id': 'Aperiam libero volup',
-        //   'u-name': 'Kaitlin Mcintosh',
-        //   'user-password': 'Pa$$w0rd!',
-        //   'user-password-confirm': 'Pa$$w0rd!'
-        // }
-        const requestData = JSON.parse(body);
-        const cust_id = parseInt(requestData['c-id']);
+        const cust_id = req.customerId;
 
-        // console.log(`${cust_id}`)
-    
         if (!cust_id) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Missing customer id, username or password in headers' }));
@@ -327,12 +315,12 @@ const customerController = {
               res.end(JSON.stringify({ error: 'Internal Server Error' }));
             }
             else{
-              console.log(`Result of get query: ${JSON.stringify(results)}`);
+              // console.log(`Result of get query: ${JSON.stringify(results)}`);
               res.writeHead(200, { 'Content-Type': 'application/json' });
               const responseData = {
                 success: true,
                 message: 'Data Received Successfully',
-                data: results,
+                data: {results},
               };
               res.end(JSON.stringify(responseData));
             }
@@ -361,4 +349,4 @@ const customerController = {
 
 };
 
-module.exports = customerController;
+module.exports = customerController

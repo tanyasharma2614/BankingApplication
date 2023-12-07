@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const handleFormSubmission = async (event) => {
     event.preventDefault();
 
-    const recaptchaResponse = await grecaptcha.execute('API site key', { action: 'submit' });
+    const recaptchaResponse = await grecaptcha.execute('6Lf-Su4oAAAAAL_SrlFA1cihwExxhosUveLAfIuZ', { action: 'submit' });
     // Get the password and confirm password input values
     const password = document.getElementById("user-password").value;
     const confirmPassword = document.getElementById("user-password-confirm").value;
