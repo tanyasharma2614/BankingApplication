@@ -1,0 +1,81 @@
+/* policy_rates.css */
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #fff;
+}
+
+
+#policyRatesTable {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px; /* Adjust the margin-top as needed */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+button.update-button {
+    background-color: yellow;
+    color: #000; /* Set text color to black for better visibility on yellow background */
+}
+
+button.delete-button {
+    background-color: red;
+    color: #fff; /* Set text color to white for better visibility on red background */
+}
+
+button.insertButton {
+    background-color: green;
+    color: #fff; /* Set text color to white for better visibility on green background */
+}
+
+/* policy_rates.css */
+
+#insertButton {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px; /* Set width and height to ensure a perfect circle */
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    right: 20px;
+    bottom: 20px;
+}
+
+#insertButton:hover {
+    background-color: darkgreen;
+}
+
+#insertButton::after {
+    content: "+"; /* Add a plus sign content */
+    font-size: 24px; /* Adjust plus sign size */
+}
+
+

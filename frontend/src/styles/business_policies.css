@@ -1,0 +1,54 @@
+/* styles.css */
+
+body {
+    background-color: #000;
+    color: #fff; /* Set text color to white for better visibility on black background */
+    font-family: 'Roboto', sans-serif; /* Use Roboto font for the body */
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px; /* Add some spacing between list items */
+}
+
+.list-item-box {
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Add round corners to each list item */
+    padding: 10px;
+    cursor: pointer;
+    background-color: #333; /* Set box background color to a darker shade */
+    color: #fff; /* Set text color to white */
+    text-align: left; /* Align the text to the left */
+    display: flex;
+    flex-direction: column; /* Display description below the name */
+    transition: background-color 0.3s ease; /* Add a smooth background color transition */
+    list-style: none; /* Remove the default list item marker */
+}
+
+.list-item-box:hover {
+    background-color: #555; /* Darken the background color on hover */
+}
+
+.list-item-name {
+    font-size: 18px; /* Set the font size for the name */
+    font-weight: bold; /* Make the name bold */
+}
+
+.expanded-details-container {
+    margin-top: 10px; /* Add space between name and description */
+    padding: 10px;
+    background-color: #555; /* Set background color for expanded details */
+    color: #fff; /* Set text color to white */
+    display: none; /* Initially hide the expanded details container */
+}
+
+.expanded-details-container.visible {
+    display: block; /* Make the expanded details container visible when the 'visible' class is present */
+}
+
+.expanded-details {
+    margin-top: 10px; /* Add space between name and description */
+    font-size: 16px; /* Set font size for the description */
+}

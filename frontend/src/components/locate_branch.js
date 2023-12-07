@@ -10,9 +10,27 @@ const map = new mapboxgl.Map({
 //Event Listener
 document.getElementById('submit_zip').addEventListener('click', fetchData);
 
+//A function to check and validate zip-codes
+function validate (input) {
+    return input.match(/^[/\d]{5}?$/) !== null      
+}
+
 //A function to fetch data from the backend api
 function fetchData() {
     const query_param = document.getElementById('zip_code').value;
+
+    try{
+        const int_zip_code = parseInt(query_param)
+    }
+    catch(err){
+        window.alert("The zip-code entered is invalid.");
+        return;
+    }
+
+    if(validate(query_param) === false){
+        window.alert("The zip-code entered is invalid.");
+        return;
+    }
 
     const data = {
         zip_code: query_param,

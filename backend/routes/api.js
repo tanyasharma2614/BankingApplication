@@ -3,7 +3,10 @@ const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
 const reportCardController=require('../controllers/reportCardController');
 const productController=require('../controllers/productController');
+const transactionController=require('../controllers/transaction_controller')
 const { parse } = require('querystring');
+const authenticateToken = require('../controllers/middleware.js');
+
 
 const jwt = require('jsonwebtoken');;
 
@@ -21,6 +24,9 @@ function handleAPIRequest(req, res) {
         break;
       case 'email-alert':
         alertController.alert(req,res);
+        break;
+      case 'discord-alert':
+        alertController.discordtext(req,res);
         break;
       case 'insertPolicy':
         adminController.insertPolicy(req,res);
@@ -49,6 +55,12 @@ function handleAPIRequest(req, res) {
       case 'deleteProduct':
           productController.deleteProduct(req,res);
           break;
+      case 'card_payment':
+        authenticateToken(req, res, () =>  customerController.credit_card_payment(req, res));
+        break;
+      case 'int-payment':
+        transactionController.international_payment(req,res);
+        break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -57,10 +69,10 @@ function handleAPIRequest(req, res) {
   } else if (req.method === 'GET'){
     switch (endpoint) {
       case 'accountActivity':
-        customerController.accountActivity(req, res);
+        authenticateToken(req, res, () => customerController.accountActivity(req, res));
       break;
         case 'bankStatement':
-        customerController.bankStatement(req, res);
+        authenticateToken(req, res, () => customerController.bankStatement(req, res));
         break;
       case 'getAllPolicyNames':
         adminController.getAllPolicyNames(req,res);
@@ -88,7 +100,40 @@ function handleAPIRequest(req, res) {
         res.end(JSON.stringify({ error: 'Not Found' }));
         break;
     }
-  }else {
+  }
+  else if(req.method==='DELETE'){
+    switch(endpoint){
+      case 'trans-rev':
+        transactionController.revoke(req,res);
+        break;
+      case 'deletePolicy':
+        adminController.deletePolicy(req,res);
+        break;
+      case 'deletePolicyRate':
+        adminController.deletePolicyRate(req,res);
+        break;
+      default:
+        console.log('in delete')
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+        break;
+    }
+  } else if (req.method==='PUT') {
+
+    switch (endpoint) {
+      case 'updatePolicy':
+        adminController.updatePolicy(req, res);
+        break;
+      case 'updatePolicyRate':
+        adminController.updatePolicyRate(req, res);
+        break;
+      default:
+        res.writeHead(404, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({error: 'Not Found'}));
+        break;
+    }
+  }
+  else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }
