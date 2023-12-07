@@ -52,9 +52,21 @@ const admin={
             }
         });
 
+    },
+    insertProduct: function (Product_Name, Product_short_desc, Product_desc, callback) {
+        const sql = `INSERT INTO Products (Product_Name, Product_short_desc, Product_desc) VALUES (?, ?, ?);`;
+        db.query(sql, [Product_Name, Product_short_desc, Product_desc], callback);
+    },
+
+    updateProductDetails: function (Product_Id, Product_Name, Product_short_desc, Product_desc, callback) {
+        const sql = `UPDATE Products SET Product_Name = ?, Product_short_desc = ?, Product_desc = ? WHERE Product_Id = ?;`;
+        db.query(sql, [Product_Name, Product_short_desc, Product_desc, Product_Id], callback);
+    },
+
+    deleteProduct: function (productId, callback) {
+        const sql = `DELETE FROM Products WHERE Product_Id = ?;`;
+        db.query(sql, [productId], callback);
     }
-
-
 
 }
 

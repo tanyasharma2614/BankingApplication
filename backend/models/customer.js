@@ -67,7 +67,14 @@ const Customer={
             WHERE Cards.card_id = ${cardId};
         `;
         db.query(sql, callback);
+    },
+
+    getProductDetailsById: function(productId, callback) {
+        const sql = `SELECT * FROM Products WHERE Product_Id = ${productId};`;
+        db.query(sql, callback);
     }
+    
+    
 
 };
 

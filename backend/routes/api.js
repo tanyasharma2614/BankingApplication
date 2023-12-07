@@ -2,7 +2,10 @@ const customerController = require('../controllers/customerController');
 const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
 const reportCardController=require('../controllers/reportCardController');
+const productController=require('../controllers/productController');
 const { parse } = require('querystring');
+
+const jwt = require('jsonwebtoken');;
 
 function handleAPIRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
@@ -34,8 +37,17 @@ function handleAPIRequest(req, res) {
       case 'deleteCard':
           reportCardController.deleteCard(req,res);
           break;
-        case 'reactivateCard':
+      case 'reactivateCard':
           reportCardController.reactivateCard(req,res);
+          break;
+      case 'addProduct':
+          productController.addProduct(req,res);
+          break;
+      case 'updateProduct':
+          productController.updateProduct(req,res);
+          break;
+      case 'deleteProduct':
+          productController.deleteProduct(req,res);
           break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -67,7 +79,10 @@ function handleAPIRequest(req, res) {
         break;
       case 'report-card':
         reportCardController.reportCard(req,res);
-        break;  
+        break;
+      case 'fetch-product-details':
+        productController.fetchProductDetails(req,res);
+        break;    
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
