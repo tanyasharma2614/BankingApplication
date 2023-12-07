@@ -4,6 +4,7 @@ let map_of_transactions = {};
 document.addEventListener("DOMContentLoaded", function () {
     //Event Listeners
     document.getElementById('accountDropdown').addEventListener('change', account_drop_down_closed);
+    document.getElementById('monthSelect').addEventListener('change', account_drop_down_closed);
 
     // As soon as it loads we need to display the account activity
     fetch("/api/bankStatement", {
@@ -57,10 +58,17 @@ document.addEventListener("DOMContentLoaded", function () {
           map_of_transactions[accountNumFrom].push(transaction_info);
           map_of_transactions[accountNumTo].push(transaction_info);
       }
+      console.log(map_of_transactions)
       const current_act = document.getElementById('accountDropdown').value
+      const monthSelected = document.getElementById('monthSelect').value
       if (current_act){
         document.getElementById('account_balance').textContent = map_of_balances[current_act].toFixed(2);
-        addRowsToTable(map_of_transactions[current_act])
+        const data = map_of_transactions[current_act].filter((transaction) => {
+          console.log(`${formatMonthFromTimestamp(transaction.Timestamp_Start)} ${monthSelected}`)
+          return formatMonthFromTimestamp(transaction.Timestamp_Start) === monthSelected
+        })
+        console.log(data)
+        addRowsToTable(data)
       }
 
     })
@@ -106,12 +114,29 @@ function formatDateFromTimestamp(timestamp) {
 
   return formattedDate;
 }
+function formatMonthFromTimestamp(timestamp) {
+  const dateObject = new Date(timestamp);
+
+  // Extracting individual components of the date
+  const month = (dateObject.getMonth() + 1).toString(); // Month is zero-indexed
+  return month;
+}
 
 
 function account_drop_down_closed(){
   document.getElementById('account_balance').textContent = map_of_balances[document.getElementById('accountDropdown').value].toFixed(2);
   const current_act = document.getElementById('accountDropdown').value
+  const monthSelected = document.getElementById('monthSelect').value
   if (current_act){
-    addRowsToTable(map_of_transactions[current_act])
+    document.getElementById('account_balance').textContent = map_of_balances[current_act].toFixed(2);
+        console.log(map_of_transactions[current_act])
+        const data = map_of_transactions[current_act].filter((transaction) => {
+          console.log(`${formatMonthFromTimestamp(transaction.Timestamp_Start)} ${monthSelected}`)
+          return formatMonthFromTimestamp(transaction.Timestamp_Start) === monthSelected
+        })
+    console.log(data)
+    addRowsToTable(data)
 }
+
 }
+
