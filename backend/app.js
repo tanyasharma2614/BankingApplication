@@ -109,7 +109,10 @@ const getFilePath = (fileName) => {
     'card_payment.html': '../frontend/public/card_payment.html',
     'card_payment.css': '../frontend/src/styles/card_payment.css',
     'customer_dashboard.html': '../frontend/public/customer_dashboard.html',
-    'customer_dashboard.css': '../frontend/src/styles/customer_dashboard.css'
+    'customer_dashboard.css': '../frontend/src/styles/customer_dashboard.css',
+    'bank_statement.html': '../frontend/public/bank_statement.html',
+    'bank_statement.css': '../frontend/src/styles/bank_statement.css',
+    'bank_statement.js': '../frontend/src/components/bank_statement.js',
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }

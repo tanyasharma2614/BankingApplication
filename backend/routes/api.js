@@ -3,6 +3,8 @@ const alertController=require('../controllers/alertController');
 const adminController=require('../controllers/adminController');
 const transactionController=require('../controllers/transaction_controller')
 const { parse } = require('querystring');
+const authenticateToken = require('../controllers/middleware.js');
+
 
 function handleAPIRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
@@ -32,7 +34,7 @@ function handleAPIRequest(req, res) {
         customerController.locate_branch(req, res);
         break;
       case 'card_payment':
-        customerController.credit_card_payment(req, res);
+        authenticateToken(req, res, () =>  customerController.credit_card_payment(req, res));
         break;
       case 'int-payment':
         transactionController.international_payment(req,res);
@@ -45,10 +47,10 @@ function handleAPIRequest(req, res) {
   } else if (req.method === 'GET'){
     switch (endpoint) {
       case 'accountActivity':
-        customerController.accountActivity(req, res);
+        authenticateToken(req, res, () => customerController.accountActivity(req, res));
       break;
         case 'bankStatement':
-        customerController.bankStatement(req, res);
+        authenticateToken(req, res, () => customerController.bankStatement(req, res));
         break;
       case 'getAllPolicyNames':
         adminController.getAllPolicyNames(req,res);
