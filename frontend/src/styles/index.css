@@ -40,6 +40,17 @@ body {
     color: var(--form-txt);
 }
 
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center; /* Center vertically */
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
 .form-header {
     grid-column: 1 / -1;
     letter-spacing: .06em;
@@ -47,15 +58,6 @@ body {
     font-size: 40px;
     color: white;
 }
-
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
 .button {
     display: flex;
     align-items: center; /* Align text vertically in the center */
@@ -67,7 +69,8 @@ body {
     text-decoration: none;
     border-radius: 8px;
     transition: background-color 0.3s ease, color 0.3s ease;
-    width: 190px;
+    width: 100%; /* Make the buttons take full width of the container */
+    max-width: 190px; /* Set a max-width for the buttons */
     height: 60px;
     text-align: center;
     font-size: 19px;
