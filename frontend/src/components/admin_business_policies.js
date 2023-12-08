@@ -50,7 +50,28 @@ document.addEventListener("DOMContentLoaded", function () {
             insertPolicyModal.style.display = 'none';
         }
     });
+
+    const filterInput = document.getElementById('policyFilter');
+    filterInput.addEventListener('input', function () {
+        // Call the function to filter the list based on the input value
+        filterPolicyList(this.value.trim());
+    });
 });
+
+function filterPolicyList(filterText) {
+    const listItems = document.querySelectorAll('.list-item-box');
+
+    listItems.forEach(item => {
+        const itemName = item.querySelector('.list-item-name').textContent.toLowerCase();
+
+        // Check if the filter text is found in the item name
+        if (itemName.includes(filterText.toLowerCase())) {
+            item.style.display = 'block';  // Show the item
+        } else {
+            item.style.display = 'none';   // Hide the item
+        }
+    });
+}
 
 function fetchPolicyNames() {
     const adminPolicyList = document.getElementById('adminPolicyList');
