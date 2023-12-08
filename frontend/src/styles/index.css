@@ -1,45 +1,65 @@
-/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+:root {
+    --blue: rgb(32, 64, 219);
+    --red: rgb(252, 86, 108);
+    --dusky-green: rgb(15, 99, 217);
+    --opac-white: rgba(255, 255, 255, .8);
+    --form-txt: rgba(255, 255, 255, .5);
+    --darky: #1e2b39;
+    --light-grey: rgb(105, 105, 105);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #1e2b39;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow: hidden;
+    background-color: var(--dusky-green);
 }
 
-.header {
-    background-color: #007bff; /* PNC Bank blue color */
-    padding: 20px 0;
+.card-container {
+    display: grid;
+    grid-template-columns: calc(100% - 60%) auto;
+    height: 100vh;
     width: 100%;
-    text-align: center;
+    overflow: hidden;
+    background-color: var(--darky);
 }
 
-.logo {
-    color: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
+.form-container {
+    width: 50vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+    padding: 50px;
+    color: var(--form-txt);
 }
 
-.trademark {
-    font-size: 16px;
-    vertical-align: text-top;
+.form-header {
+    grid-column: 1 / -1;
+    letter-spacing: .06em;
+    margin-bottom: 30px;
+    font-size: 40px;
+    color: white;
 }
 
 .button-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
     padding: 20px;
 }
 
 .button {
-    display: block;
+    display: flex;
+    align-items: center; /* Align text vertically in the center */
+    justify-content: center; /* Align text horizontally in the center */
     padding: 15px;
     background-color: #fff;
     color: #1e2b39;
@@ -47,11 +67,46 @@ body {
     text-decoration: none;
     border-radius: 8px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    width: 190px;
+    height: 60px;
+    text-align: center;
+    font-size: 19px;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .button:hover {
-    background-color: #007bff; /* PNC Bank blue color */
+    background-color: #007bff;
     color: #fff;
 }
 
-/* Add more styles as needed */
+.image-container {
+    display: grid;
+    place-items: center;
+    background-color: var(--dusky-green);
+    color: white;
+}
+
+.image-container > img {
+    width: calc(90%);
+}
+
+.company,
+.image-container > .quote {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 19px;
+}
+
+.company {
+    font-size: 34px;
+    text-align: left;
+    height: 70px;
+    align-self: flex-start;
+    padding: 2% 0 0 5%;
+}
+
+.outro-overlay > .company {
+    position: absolute;
+    top: 0;
+}
