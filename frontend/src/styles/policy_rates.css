@@ -7,14 +7,29 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
+}
+
+.header {
+    background-color: #007bff;
+    padding: 20px;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0px 5px 5px -5px #000;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 h1 {
     color: #fff;
+    margin: 0;
+    padding-left: 20px; /* Add padding to the left */
+    font-size: 24px; /* Adjusted font size */
 }
 
 #policyRatesTable {
-    margin-top: 50px;
+    margin-top: 80px;
 }
 
 table {
@@ -98,6 +113,7 @@ button:hover {
 }
 
 .insert-row input {
+
     width: calc(100% - 16px);
     margin: 4px;
     padding: 10px;
@@ -108,17 +124,18 @@ button:hover {
 }
 
 .insert-row input:focus {
-    border-color: #2196F3; /* Change border color on focus */
-    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5); /* Add a subtle box shadow on focus */
+    border-color: #2196F3;
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
 }
+
 .insert-row button.save-button {
-    background-color: #4CAF50; /* Green color for Save button */
+    background-color: #4CAF50;
     color: #fff;
     margin-right: 8px;
 }
 
 .insert-row button.cancel-button {
-    background-color: #f44336; /* Red color for Cancel button */
+    background-color: #f44336;
     color: #fff;
 }
 
@@ -130,6 +147,7 @@ button:hover {
     font-size: 14px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 /* Add hover effect to table rows */
 table tr:hover {
     background-color: #263238;

@@ -1,23 +1,37 @@
-/* styles.css */
+/* business_policies.css */
 
 body {
     background-color: #1e2b39;
     color: #fff;
     font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 20px; /* Add some margin to the body */
+    margin: 0; /* Remove margin to extend the background color to the edges */
+}
+
+.header {
+    background-color: #007bff;
+    padding: 20px 0;
+    width: 100%;
+    box-shadow: 0px 5px 5px -5px #000;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 h1 {
-    margin-bottom: 10px; /* Add margin below the heading */
+    margin: 0; /* Remove margin from h1 */
+    font-size: 24px;
+    font-weight: bold;
+    padding-left: 20px; /* Add padding to the left */
 }
 
 #policyFilter {
-    margin-bottom: 20px; /* Add space between the filter and the list */
+    margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 20px; /* Add rounded corners to the filter input */
-    background-color: #444; /* Set a different background color */
+    border-radius: 20px;
+    background-color: #444;
     color: #fff;
+    margin-top: 100px;
     font-size: 16px;
 }
 
@@ -25,45 +39,45 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 10px; /* Add some spacing between list items */
+    gap: 10px;
 }
 
 .list-item-box {
     border: 1px solid #ccc;
-    border-radius: 10px; /* Add round corners to each list item */
+    border-radius: 10px;
     padding: 10px;
     cursor: pointer;
-    background-color: #333; /* Set box background color to a darker shade */
-    color: #fff; /* Set text color to white */
-    text-align: left; /* Align the text to the left */
+    background-color: #333;
+    color: #fff;
+    text-align: left;
     display: flex;
-    flex-direction: column; /* Display description below the name */
-    transition: background-color 0.3s ease; /* Add a smooth background color transition */
-    list-style: none; /* Remove the default list item marker */
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+    list-style: none;
 }
 
 .list-item-box:hover {
-    background-color: #107ab0; /* Darken the background color on hover */
+    background-color: #107ab0;
 }
 
 .list-item-name {
-    font-size: 18px; /* Set the font size for the name */
-    font-weight: bold; /* Make the name bold */
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .expanded-details-container {
-    margin-top: 10px; /* Add space between name and description */
+    margin-top: 10px;
     padding: 10px;
-    background-color: #555; /* Set background color for expanded details */
-    color: #fff; /* Set text color to white */
-    display: none; /* Initially hide the expanded details container */
+    background-color: #555;
+    color: #fff;
+    display: none;
 }
 
 .expanded-details-container.visible {
-    display: block; /* Make the expanded details container visible when the 'visible' class is present */
+    display: block;
 }
 
 .expanded-details {
-    margin-top: 10px; /* Add space between name and description */
-    font-size: 16px; /* Set font size for the description */
+    margin-top: 10px;
+    font-size: 16px;
 }

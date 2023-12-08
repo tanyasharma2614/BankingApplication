@@ -27,22 +27,28 @@ function createInsertRow() {
     const newRow = document.createElement('tr');
     newRow.classList.add('insert-row'); // Add a class to style the insert row differently
 
-    // Create input field for Policy_Name
     const policyNameInput = createInput('text', 'policyNameInput', 'Enter Policy Name');
     const policyNameCell = document.createElement('td');
     policyNameCell.appendChild(policyNameInput);
     newRow.appendChild(policyNameCell);
 
-    // Create input field for rate
-    const rateInput = createInput('number', 'rateInput', 'Enter Rate');
+    const rateInput = createInput('text', 'rateInput', 'Enter Rate');
     const rateCell = document.createElement('td');
     rateCell.appendChild(rateInput);
     newRow.appendChild(rateCell);
 
-    // Create buttons for Save and Cancel
     const saveButton = createButton('Save', 'insert-button save-button');
     saveButton.addEventListener('click', () => {
-        saveNewPolicyRate(policyNameInput.value.trim(), rateInput.value.trim(), newRow);
+        const rateValue = parseFloat(rateInput.value.trim());
+
+        // Check if the input is a valid float
+        if (!isNaN(rateValue)) {
+            // Call the function to save the new policy rate
+            saveNewPolicyRate(policyNameInput.value.trim(), rateValue, newRow);
+        } else {
+            // Handle invalid input (e.g., show an error message)
+            alert('Invalid rate. Please enter a valid number.');
+        }
     });
 
     const cancelButton = createButton('Cancel', 'insert-button cancel-button');
