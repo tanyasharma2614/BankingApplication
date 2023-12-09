@@ -113,6 +113,15 @@ const getFilePath = (fileName) => {
     'bank_statement.html': '../frontend/public/bank_statement.html',
     'bank_statement.css': '../frontend/src/styles/bank_statement.css',
     'bank_statement.js': '../frontend/src/components/bank_statement.js',
+    'products.html': '../frontend/public/products.html',
+    'products.css': '../frontend/src/styles/products.css',
+    'products.js': '../frontend/src/components/products.js',
+    'report_debit_card.html': '../frontend/public/report_debit_card.html',
+    'report_debit_card.css': '../frontend/src/styles/report_debit_card.css',
+    'report_debit_card.js': '../frontend/src/components/report_debit_card.js',
+    'modify_products.html': '../frontend/public/modify_products.html',
+    'modify_products.css': '../frontend/src/styles/modify_products.css',
+    'modify_products.js': '../frontend/src/components/modify_products.js'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }

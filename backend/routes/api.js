@@ -38,23 +38,26 @@ function handleAPIRequest(req, res) {
         customerController.locate_branch(req, res);
         break;
       case 'confirmReportCard':
-          reportCardController.confirmReportCard(req,res);
-          break;
+        // authenticateToken(reportCardController.confirmReportCard(req,res));
+        reportCardController.confirmReportCard(req,res)
+        break;
       case 'deleteCard':
-          reportCardController.deleteCard(req,res);
-          break;
+        // authenticateToken(reportCardController.deleteCard(req,res));
+        reportCardController.deleteCard(req,res)
+        break;
       case 'reactivateCard':
-          reportCardController.reactivateCard(req,res);
-          break;
+        // authenticateToken(reportCardController.reactivateCard(req,res));
+        reportCardController.reactivateCard(req,res)
+        break;
       case 'addProduct':
-          productController.addProduct(req,res);
-          break;
+        productController.addProduct(req,res);
+        break;
       case 'updateProduct':
-          productController.updateProduct(req,res);
-          break;
+        productController.updateProduct(req,res);
+        break;
       case 'deleteProduct':
-          productController.deleteProduct(req,res);
-          break;
+        productController.deleteProduct(req,res);
+        break;
       case 'card_payment':
         authenticateToken(req, res, () =>  customerController.credit_card_payment(req, res));
         break;
@@ -89,7 +92,12 @@ function handleAPIRequest(req, res) {
       case 'google-login-callback':
         customerController.google_login_callback(req,res);
         break;
+      case 'fetch-debit-card-details':
+        // reportCardController.fetchDebitCardDetails(req, res);
+        authenticateToken(req, res, () => reportCardController.fetchDebitCardDetails(req, res));
+        break;
       case 'report-card':
+        // authenticateToken(reportCardController.reportCard(req,res));
         reportCardController.reportCard(req,res);
         break;
       case 'fetch-product-details':

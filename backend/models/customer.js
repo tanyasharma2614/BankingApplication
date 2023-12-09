@@ -168,6 +168,19 @@ const Customer={
 // >>>>>>> main
         db.query(sql, callback);
     },
+
+    fetchDebitCardDetails: function(customerId, callback) {
+        const sql = `
+            SELECT c.Card_id, c.Card_Number, c.Card_Status
+            FROM accounts a
+            JOIN cards c ON a.Account_Number = c.Account_Number
+            WHERE a.Customer_Id = ?;
+        `;
+    
+        // Execute the SQL query using your database connection, and call the callback with the results.
+        db.query(sql, [customerId], callback);
+    },
+    
     
     getCardNumberByCardId: function(cardId, callback){
         // Note: Need to have the Card with the current cardId in the Cards table before this
@@ -209,10 +222,14 @@ const Customer={
         db.query(sql, callback);
     },
 
-    getProductDetailsById: function(productId, callback) {
-        const sql = `SELECT * FROM Products WHERE Product_Id = ${productId};`;
-    
+    // getProductDetailsById: function(productId, callback) {
+    //     const sql = `SELECT * FROM Products WHERE Product_Id = ${productId};`;
+    // }
+    getAllProducts: function(callback) {
 
+        const sql = 'SELECT * FROM Products;';
+        // Execute the SQL query using your database connection, and call the callback with the results.
+        db.query(sql, callback);
     }
 };
 

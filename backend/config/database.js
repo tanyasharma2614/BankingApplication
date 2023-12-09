@@ -3,7 +3,7 @@ require('dotenv').config();
 const dbConfig={
     host:'localhost',
     user:'root',
-    password: 'password',
+    password: '',
     database:'bank'
 };
 

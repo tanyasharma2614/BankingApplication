@@ -3,33 +3,56 @@ const Admin = require('../models/admin');
 const url = require('url');
 
 const productController = {
+    // fetchProductDetails: function(req, res) {
+    //     try {
+    //         // const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+    //         // const productId = parsedUrl.searchParams.get('productId');
+
+    //         const parsedUrl = url.parse(req.url, true);
+    //         const productId = parsedUrl.query.productId;
+
+    //         Customer.getProductDetailsById(productId, (error, productDetails) => {
+    //             if (error) {
+    //                 console.error('Fetching product details failed:', error);
+    //                 res.writeHead(500, { 'Content-Type': 'application/json' });
+    //                 res.end(JSON.stringify({ message: 'Fetching product details failed', error }));
+    //             } else {
+    //                 if (!productDetails || productDetails.length === 0) {
+    //                     res.writeHead(404, { 'Content-Type': 'application/json' });
+    //                     res.end(JSON.stringify({ message: 'Product details not found' }));
+    //                 } else {
+    //                     res.writeHead(200, { 'Content-Type': 'application/json' });
+    //                     res.end(JSON.stringify({ success: true, data: productDetails }));
+    //                 }
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error('Fetching product details failed:', error);
+    //         res.writeHead(500, { 'Content-Type': 'application/json' });
+    //         res.end(JSON.stringify({ message: 'Fetching product details failed', error }));
+    //     }
+    // },
     fetchProductDetails: function(req, res) {
         try {
-            // const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-            // const productId = parsedUrl.searchParams.get('productId');
-
-            const parsedUrl = url.parse(req.url, true);
-            const productId = parsedUrl.query.productId;
-
-            Customer.getProductDetailsById(productId, (error, productDetails) => {
+            Customer.getAllProducts((error, products) => {
                 if (error) {
-                    console.error('Fetching product details failed:', error);
+                    console.error('Fetching products failed:', error);
                     res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ message: 'Fetching product details failed', error }));
+                    res.end(JSON.stringify({ message: 'Fetching products failed', error }));
                 } else {
-                    if (!productDetails || productDetails.length === 0) {
+                    if (!products || products.length === 0) {
                         res.writeHead(404, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ message: 'Product details not found' }));
+                        res.end(JSON.stringify({ message: 'No products found' }));
                     } else {
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: true, data: productDetails }));
+                        res.end(JSON.stringify({ success: true, data: products }));
                     }
                 }
             });
         } catch (error) {
-            console.error('Fetching product details failed:', error);
+            console.error('Fetching products failed:', error);
             res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Fetching product details failed', error }));
+            res.end(JSON.stringify({ message: 'Fetching products failed', error }));
         }
     },
 
