@@ -1,0 +1,41 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+/* Container for the card details */
+.debit-card-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Styling for the main heading */
+.debit-card-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Styling for card details */
+#card-details {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Paragraph styling inside card details */
+#card-details p {
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Add any additional styling as needed */
