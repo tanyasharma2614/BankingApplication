@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     insertPolicyModalButton.addEventListener('click', () => {
         // Get values from input boxes
-        const newPolicyName = policyNameInput.value;
+        const newPolicyName = (policyNameInput.value || "").trim();
         const newPolicyDesc = policyDescInput.value;
 
         if (newPolicyName && newPolicyDesc) {
@@ -162,7 +162,8 @@ function displayPolicyDetails(policyName, descriptionDiv) {
         .then(data => {
             if (data.success && data.data.length > 0) {
                 const policyDesc = data.data[0].Policy_Desc;
-                descriptionDiv.innerHTML = `<p class="expanded-details">${policyDesc}</p>`;
+                const formattedDesc = policyDesc.replace(/\n/g, '<br>');
+                descriptionDiv.innerHTML = `<p class="expanded-details">${formattedDesc}</p>`;
             } else {
                 descriptionDiv.innerHTML = '<p class="expanded-details">Policy details not found.</p>';
             }
@@ -178,7 +179,7 @@ function replaceWithEditableTextBox(policyName,descriptionDiv, editDeleteContain
     editButton.style.display = "None"
     deleteButton.style.display = "None"
     // Retrieve the existing description
-    const currentDesc = descriptionDiv.querySelector('.expanded-details').textContent;
+    const currentDesc = descriptionDiv.querySelector('.expanded-details').innerHTML.replace(/<br\s*[\/]?>/gi, '\n');
 
     // Hide the descriptionDiv
     descriptionDiv.style.display = 'none';
