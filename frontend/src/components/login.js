@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded",function(){
               //Change it to teller dashboard once ready
               window.location.href = '/bank_teller.html';
             }
+            else if(data.user==="Admin"){
+              window.location.href='/admin_dashboard.html';
+            }
           } else {
             const errorData = await response.json();
             console.error("Login API request failed with status: " + response.status);
