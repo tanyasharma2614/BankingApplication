@@ -203,9 +203,27 @@ input:valid {
 }
 
 
-
-
-
-
-
-
+.google-login-btn {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    padding: 10px 20px;
+    background-color:var(--dusky-green); 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .google-login-btn::before {
+    content: "";
+    background: url('https://cdn.iconscout.com/icon/free/png-512/free-google-160-189824.png?f=webp&w=512') center/cover no-repeat;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  
+  

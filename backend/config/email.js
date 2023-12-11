@@ -7,7 +7,7 @@ const sendEmail=async(to,subject,text,html)=>{
         secure:false,
         auth:{
             user:'BankingApp.SE567@proton.me',
-            pass:'BBF7ABC8D091994A5C0CADADBCC58C6CF204'
+            pass:process.env.EMAIL_PASS
         }
     });
 

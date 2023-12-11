@@ -16,7 +16,7 @@
   <body>
     <main class="card-container slideUp-animation">
       <div class="image-container">
-        <h1 class="company">Bank Application <sup>&trade;</sup></h1>
+        <h1 class="company">Bank Application<sup>&trade;</sup></h1>
         <img src="./assets/images/signUp.svg" class="illustration" alt="" />
         <p class="quote">Login to access our world class customer portal</p>
       </div>
@@ -61,6 +61,12 @@
             <div class="error" id="confirmError"></div>
           </div>
 
+          <div class="input-container">
+            <button type="button" id="google-login" class="google-login-btn">
+              Login with Google
+            </button>
+          </div>
+
           <div id="btm">
             <button type="submit" class="submit-btn">Submit</button>
           </div>
@@ -68,5 +74,11 @@
       </form>
     </main>
     <script src="../src/components/login.js"></script>
+    <script>
+      document.getElementById('google-login').addEventListener('click', () => {
+        // Redirect to the Google OAuth endpoint for login
+        window.location.href = '/api/google-login';
+      });
+    </script>
   </body>
 </html>
