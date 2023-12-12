@@ -21,6 +21,9 @@ function handleAPIRequest(req, res) {
       case 'signup':
         customerController.sign_up(req, res);
         break;
+      case 'application':
+        alertController.alert(req,res);
+        break;
       case 'email-alert':
         alertController.alert(req,res);
         break;
@@ -101,6 +104,9 @@ function handleAPIRequest(req, res) {
         break;
       case 'updatePolicyRate':
         adminController.updatePolicyRate(req, res);
+        break;
+      case 'changeCredentials':
+        alertController.alert(req,res);
         break;
       default:
         res.writeHead(404, {'Content-Type': 'application/json'});
