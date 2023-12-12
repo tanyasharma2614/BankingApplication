@@ -103,6 +103,121 @@ const customerController = {
     });
 
   },
+  application: function(req, res){
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+        console.log(`Data received on backend: ${body}`)
+        // Expected data from frontend
+        // {
+        //   'First_Name': 'Aperiam libero volup',
+        //   'Last_Name': 'Kaitlin Mcintosh',
+        //   'Address': 'Pa$$w0rd!',
+        //   'Cell_Phone': 'Pa$$w0rd!',
+        //   'Email': 'Pa$$w0rd!',
+        //   'DOB': 'Pa$$w0rd!',
+        // }
+        const requestData = JSON.parse(body);
+        const firstName =  requestData['First_Name'];
+        const lastName = requestData['Last_Name'];
+        const address =  requestData['Address'];
+        const cellPhone = requestData['Cell_Phone'];
+        const email =  requestData['Email'];
+        const dateOfBirth =  requestData['DOB'];
+        const accountType =  requestData['Account_Type'];
+
+        console.log(`${firstName}, ${lastName}, ${address}, ${cellPhone}, ${email}, ${dateOfBirth}`)
+    
+        if (!firstName || !lastName || !address || !cellPhone || !email || !dateOfBirth) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Missing First Name, Last Name, Address, Cell Phone, Email, or Date of Birth in headers' }));
+        }else{
+
+          Customer.application(firstName, lastName, address, cellPhone, email, dateOfBirth, accountType, (error, results) => {
+            if(error){
+              console.error(error);
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            }
+            else{
+              console.log("1 record inserted via Application");
+              //const Customer = jwt.sign({Customer_Id}, "enc_key", {expiresIn:'1h'})
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              const responseData = {
+                success: true,
+                message: 'Data Received Successfully',
+                data: {},
+              };
+              res.end(JSON.stringify(responseData));
+            }
+          });
+          
+        }
+        
+        
+    });
+    
+
+   
+  },
+  changeCredentials: function(req, res){
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+        console.log(`Data received on backend: ${body}`)
+        // Expected data from frontend
+        // {
+        //   'c-id': 'Aperiam libero volup',
+        //   'Email': 'Kaitlin Mcintosh',
+        //   'NewPassword': 'Pa$$w0rd!',
+        //   'NewPasswordConfirm': 'Pa$$w0rd!'
+        // }
+        const requestData = JSON.parse(body);
+        const email = requestData['Email'];
+        //const newPassword = requestData['NewPassword'];
+        const newPassword = await bcrypt.hash(requestData['NewPassword'], 10); // 10 is the number of salt rounds
+        const newPasswordConfirm = await bcrypt.hash(requestData['NewPasswordConfirm'], 10); // 10 is the number of salt rounds
+
+        console.log(`${email}, ${newPassword}, ${newPasswordConfirm}`)
+    
+        if (!email || !newPassword || !newPasswordConfirm) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Missing customer id, email or newPassword in headers' }));
+        }else if (!(newPassword == newPasswordConfirm)) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Passwords dont match' }));
+        }else{
+
+          Customer.changeCredentials(email, newPassword, (error, results) => {
+            if(error){
+              console.error(error);
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            }
+            else{
+              console.log("1 record inserted via Sign-up");
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              const responseData = {
+                success: true,
+                message: 'Data Received Successfully',
+                data: {},
+              };
+              res.end(JSON.stringify(responseData));
+            }
+          });
+          
+        }
+        
+        
+    });
+    
+
+   
+  },
   sign_up: function(req, res){
     let body = '';
     req.on('data', chunk => {
