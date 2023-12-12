@@ -84,6 +84,13 @@ document.addEventListener("DOMContentLoaded", function () {
         bank_statement.addEventListener('click', function () {
           window.location.href = "/bank_statement.html";
       });
+        schedule_meeting.addEventListener('click', function () {
+            window.location.href = "/schedule_meeting.html";
+    });
+        interest_rate.addEventListener('click', function () {
+                    const interestRate = 100;
+                    document.getElementById('interest_rate').textContent = "Monthly Interest Rate: 1%";
+    });
         
         // Function to add rows to the activity table
         function addRowsToTable(data) {
