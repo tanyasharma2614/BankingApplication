@@ -254,7 +254,7 @@ const adminController = {
             try {
                 const requestData = JSON.parse(body);
                 const Policy_Name = requestData['Policy_Name'];
-                const rate = parseInt(requestData['rate']);
+                const rate = parseFloat(requestData['rate']);
 
                 if (!Policy_Name || !rate) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -304,7 +304,7 @@ const adminController = {
             try {
                 const requestData = JSON.parse(body);
                 const Policy_Name = requestData['Policy_Name'];
-                const rate = parseInt(requestData['rate']);
+                const rate = parseFloat(requestData['rate']);
 
                 if (!Policy_Name || isNaN(rate)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });

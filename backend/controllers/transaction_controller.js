@@ -32,7 +32,12 @@ function initiateTransactionRevocationFrom(account_from, account_to, transaction
         console.error(error);
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Internal Server Error' }));
-      } else {
+      } 
+      else if(results.length==0){
+        console.error("Empty result");
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'User Error: Some fields are missing or incorrect' }));
+      }else {
         initiateTransactionRevocationTo(account_to, transaction_amount,res);
       }
   });
@@ -117,7 +122,7 @@ const transactionController={
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Missing customer id, username or password in headers' }));
           }else{
-            Customer.findCustomerById(customer_id,(error,results)=>{
+            Customer.findCustomerById(customer_id,(error,results)=>{             
                           if(error){
                               console.error(error);
                               res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -129,7 +134,7 @@ const transactionController={
                               res.end(JSON.stringify({ error: 'User Error: Some fields are missing or incorrect' }));
                           }
                           else{
-                            initiateRevocation(account_from,transaction_amount,transaction_id,res);
+                            initiateRevocation(customer_id,account_from,account_to,transaction_amount,transaction_id,res);
                           }
                         });
                 }

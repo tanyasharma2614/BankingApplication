@@ -1,41 +1,60 @@
-/* General body styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background: #f4f4f4;
+    background-color: #f4f4f4;
 }
 
-/* Container for the card details */
-.debit-card-container {
+.dashboard-container {
     max-width: 600px;
-    margin: 20px auto;
+    margin: 40px auto;
     padding: 20px;
     background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
-/* Styling for the main heading */
-.debit-card-container h1 {
+.dashboard-container h1 {
     text-align: center;
     color: #333;
+    margin-bottom: 30px;
 }
 
-/* Styling for card details */
 #card-details {
-    margin-top: 20px;
-    padding: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
     background-color: #e9ecef;
     border-radius: 5px;
     font-size: 16px;
     line-height: 1.5;
 }
 
-/* Paragraph styling inside card details */
 #card-details p {
     margin: 10px 0;
     color: #333;
 }
 
-/* Add any additional styling as needed */
+.dashboard-button {
+    display: block; /* Make buttons block level for full width */
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin: 10px 0; /* Add some space between buttons */
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #28a745; /* Match this with the button color on your dashboard */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-button:hover {
+    background-color: #218838; /* Darken the button on hover */
+}
+
+
+
+

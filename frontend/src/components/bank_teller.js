@@ -2,24 +2,17 @@ document.addEventListener("DOMContentLoaded",function(){
     const handleLogin = async(event)=>{
     event.preventDefault();
 
-    const password = document.getElementById("user-password").value;
-    const confirmPassword=document.getElementById("user-password-confirm").value;
-  
-  
-    if(password!==confirmPassword){
-        const error=document.getElementById("confirmError");
-        error.textContent="Passwords do not match";
-    }else{
     try{
       const formData = new FormData(event.target);
       const formDataObject = {};
       formData.forEach((value, key) => {
         formDataObject[key] = value;
       });
-        const response = await fetch("/api/login", {
+        const response = await fetch("/api/bankTeller", {
             method: "POST",
             headers: {
               "Content-Type":"application/json",
+              "Authorization": "Bearer "+localStorage.getItem("auth_token")
             },
             body:JSON.stringify(formDataObject)
           })
@@ -37,11 +30,7 @@ document.addEventListener("DOMContentLoaded",function(){
             }
             else if(data.user === "Teller"){
               //Change it to teller dashboard once ready
-              window.location.href = '/bank_teller.html';
-            }
-            else if(data.user === "admin"){
-              //Change it to teller dashboard once ready
-              window.location.href = '/admin_dashboard.html';
+              window.location.href = '/customer_dashboard.html';
             }
           } else {
             const errorData = await response.json();
@@ -56,11 +45,10 @@ document.addEventListener("DOMContentLoaded",function(){
           console.error("Error:", error);
           alert("An error occurred during the API request.");
         }
-    }
+    
 }
 
 const formElement=document.getElementById("form");
 formElement.addEventListener("submit",handleLogin);
     
   });
-  

@@ -94,6 +94,7 @@ const getFilePath = (fileName) => {
     'login.js':'../frontend/src/components/login.js',
     'locate_branch.js': '../frontend/src/components/locate_branch.js',
     'card_payment.js': '../frontend/src/components/card_payment.js',
+    'card_payment.js': '../frontend/src/components/card_payment.js',
     'customer_dashboard.js': '../frontend/src/components/customer_dashboard.js',
     'sign-up.css': '../frontend/src/styles/sign-up.css',
     'business_policies.html' : '../frontend/public/business_policies.html',
@@ -110,6 +111,10 @@ const getFilePath = (fileName) => {
     'card_payment.css': '../frontend/src/styles/card_payment.css',
     'customer_dashboard.html': '../frontend/public/customer_dashboard.html',
     'customer_dashboard.css': '../frontend/src/styles/customer_dashboard.css',
+    'customer_dashboard.js': '../frontend/src/components/customer_dashboard.js',
+    'admin_dashboard.html': '../frontend/public/admin_dashboard.html',
+    'admin_dashboard.css': '../frontend/src/styles/admin_dashboard.css',
+    'admin_dashboard.js': '../frontend/src/components/admin_dashboard.js',
     'bank_statement.html': '../frontend/public/bank_statement.html',
     'bank_statement.css': '../frontend/src/styles/bank_statement.css',
     'bank_statement.js': '../frontend/src/components/bank_statement.js',
@@ -121,7 +126,11 @@ const getFilePath = (fileName) => {
     'report_debit_card.js': '../frontend/src/components/report_debit_card.js',
     'modify_products.html': '../frontend/public/modify_products.html',
     'modify_products.css': '../frontend/src/styles/modify_products.css',
-    'modify_products.js': '../frontend/src/components/modify_products.js'
+    'modify_products.js': '../frontend/src/components/modify_products.js',
+    'bank_teller.html': '../frontend/public/bank_teller.html',
+    'bank_teller.css': '../frontend/src/styles/bank_teller.css',
+    'bank_teller.js': '../frontend/src/components/bank_teller.js',
+    'index.css': '../frontend/src/styles/index.css',
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }

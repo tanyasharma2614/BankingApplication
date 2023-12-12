@@ -36,6 +36,18 @@ const Customer={
         const sql="INSERT INTO Credentials (Customer_Id, User_Type, Username, Password) VALUES (" + customer_id + ", 'Customer', '" + username + "', '" + password + "')";
         db.query(sql, callback); 
     },
+    validateTeller: function(username, callback){
+        const sql='SELECT * FROM Credentials WHERE username=?';
+        db.query(sql,[username],(err,results)=>{
+            if(err){
+                return callback(err,null);
+            }
+            if(results.length===0){
+                return callback(null,false,{message:'Username not found'});
+            }
+            return callback(null,true,{message:'Login successful',user:results[0]});
+        });
+    },
     accountActivity: function(customer_id, callback){
 
         //Note: Need to have the Customer with the current customer_id in the Customer table before this

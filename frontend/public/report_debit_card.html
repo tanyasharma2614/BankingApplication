@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../src/styles/report_debit_card.css"> <!-- Adjust the path as needed -->
+    <link rel="stylesheet" href="../src/styles/report_debit_card.css"> 
     <title>Debit Card Details</title>
     
 </head>
@@ -11,14 +11,37 @@
     <div class="debit-card-container">
         <h1>Your Debit Card Details</h1>
         <div id="card-details">
-            <!-- Card details will be loaded here -->
+
         </div>
         <button id="report-card-btn" style="display:none;">Report Card</button>
         <button id="reactivate-card-btn" style="display:none;">Reactivate Card</button>
         <button id="permanent-deactivation-btn" style="display:none;">Permanent Deactivation</button>
     </div>
 
-    <script src="../src/components/report_debit_card.js"></script> <!-- Your JS file to handle debit card logic -->
+    <script src="../src/components/report_debit_card.js"></script>
 
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/styles/report_debit_card.css">
+    <title>Debit Card Details</title>
+</head>
+<body>
+    <div class="dashboard-container"> <!-- renamed for consistency -->
+        <h1>Your Debit Card Details</h1>
+        <div id="card-details">
+            <!-- Card details will be loaded here -->
+        </div>
+        <button id="report-card-btn" class="dashboard-button">Report Card</button>
+        <button id="reactivate-card-btn" class="dashboard-button">Reactivate Card</button>
+        <button id="permanent-deactivation-btn" class="dashboard-button">Permanent Deactivation</button>
+    </div>
+
+    <script src="../src/components/report_debit_card.js"></script>
 </body>
 </html>
