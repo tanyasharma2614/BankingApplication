@@ -122,6 +122,11 @@ const getFilePath = (fileName) => {
     'bank_teller.css': '../frontend/src/styles/bank_teller.css',
     'bank_teller.js': '../frontend/src/components/bank_teller.js',
     'index.css': '../frontend/src/styles/index.css',
+    'schedule_meeting.html': '../frontend/public/schedule_meeting.html',
+    'schedule_meeting.js': '../frontend/src/components/schedule_meeting.js',
+    'schedule_meeting.css': '../frontend/src/styles/schedule_meeting.css',
+    'automated_interest.html': '../frontend/public/automated_interest.html',
+    'automated_interest.js': '../frontend/src/components/automated_interest.js'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }
