@@ -110,7 +110,6 @@ async function submit_payment() {
     var transaction_amount;
     
     try{
-        customer_id = await localStorage.getItem('auth_token');
         account_from = document.getElementById('account_from').value;
         account_to = document.getElementById('account_to').value;
         transaction_amount = document.getElementById('payment_amount').value;
@@ -120,7 +119,6 @@ async function submit_payment() {
         return;
     }
 
-    console.log(customer_id);
     console.log(account_from);
     console.log(account_to);
     console.log(transaction_amount);
@@ -147,7 +145,6 @@ async function submit_payment() {
     }
 
     const payload = {
-        "customer_id" : customer_id,
         "account_num_from" : account_from,
         "account_num_to" : account_to,
         "transaction_amount" : transaction_amount

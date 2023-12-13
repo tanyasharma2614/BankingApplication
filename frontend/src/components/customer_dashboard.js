@@ -121,6 +121,13 @@ document.addEventListener("DOMContentLoaded", function () {
           // modify_products.addEventListener('click', function () {
           //     window.location.href = "/modify_products.html"; // Redirect to the new debit card details page
           // });
+        funds_transfer.addEventListener('click',function () {
+          window.location.href = "../../public/funds_transfer.html";
+        });
+
+        overdraft.addEventListener('click',function () {
+          window.location.href = "../../public/overdraft.html";
+        });
         
         // Function to add rows to the activity table
         function addRowsToTable(data) {

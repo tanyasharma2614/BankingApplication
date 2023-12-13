@@ -4,6 +4,7 @@ const adminController=require('../controllers/adminController');
 const reportCardController=require('../controllers/reportCardController');
 const productController=require('../controllers/productController');
 const transactionController=require('../controllers/transaction_controller')
+const fundsTransferController=require('../controllers/fundsTransferController')
 const { parse } = require('querystring');
 const authenticateToken = require('../controllers/middleware.js');
 
@@ -64,8 +65,14 @@ function handleAPIRequest(req, res) {
       case 'card_payment':
         authenticateToken(req, res, () =>  customerController.credit_card_payment(req, res));
         break;
+      case 'transfer-funds':
+        authenticateToken(req, res, () =>  fundsTransferController.transfer(req, res));
+        break;
       case 'int-payment':
         transactionController.international_payment(req,res);
+        break;
+      case 'addTeller':
+        authenticateToken(req, res, () =>  adminController.addTeller(req,res));
         break;
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -106,6 +113,15 @@ function handleAPIRequest(req, res) {
       case 'fetch-product-details':
         productController.fetchProductDetails(req,res);
         break;    
+      case 'getAccountNumbers':
+        authenticateToken(req, res, () => customerController.getAccountNumbers(req, res));
+        break;
+      case 'getTellers':
+        authenticateToken(req, res, () => adminController.getTellers(req,res));
+        break;
+      case 'getODAccDetails':
+        authenticateToken(req, res, () => customerController.getODAccDetails(req, res));
+        break;        
       default:
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not Found' }));
@@ -123,6 +139,9 @@ function handleAPIRequest(req, res) {
       case 'deletePolicyRate':
         adminController.deletePolicyRate(req,res);
         break;
+      case 'delete-teller':
+        adminController.deleteTeller(req,res);
+        break;
       default:
         console.log('in delete')
         res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -137,6 +156,9 @@ function handleAPIRequest(req, res) {
         break;
       case 'updatePolicyRate':
         adminController.updatePolicyRate(req, res);
+        break;
+      case 'toggleOverdraft':
+        authenticateToken(req, res, () => customerController.toggleOverdraft(req,res));
         break;
       default:
         res.writeHead(404, {'Content-Type': 'application/json'});
