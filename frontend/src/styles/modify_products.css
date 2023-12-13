@@ -1,0 +1,66 @@
+body {
+    font-family: 'Arial', sans-serif; /* Assuming Arial is used in the dashboard */
+    background-color: #f4f4f4; /* Light grey background */
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    background-color: #007bff; /* Blue background for the header */
+    color: white; /* White text for the header */
+    text-align: center;
+    padding: 20px 0;
+    margin: 0;
+    font-size: 24px; /* Adjust to match the dashboard */
+}
+
+#addProduct {
+    display: block;
+    width: 20%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #007bff; /* Blue background for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#productsContainer {
+    padding: 20px;
+    width: 60%;
+    margin: auto;
+}
+
+.product {
+    background-color: white;
+    margin: 10px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.button {
+    margin: 5px;
+    padding: 10px;
+    background-color: #007bff; /* Blue background for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button.delete {
+    background-color: #dc3545; /* Red background for delete buttons */
+}
+
+/* Additional styles for hover effects on buttons to match dashboard (optional) */
+.button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.button.delete:hover {
+    background-color: #c82333; /* Darker red on hover */
+}

@@ -86,6 +86,8 @@ const getFilePath = (fileName) => {
   const filePaths = {
     // Add file paths here 
     'main.css': '../frontend/src/styles/main.css',
+    'application.html': '../frontend/public/application.html',
+    'change_credentials.html': '../frontend/public/change_credentials.html',
     'sign-up.html': '../frontend/public/sign-up.html',
     'login.html':'../frontend/public/login.html',
     'locate_branch.html': '../frontend/public/locate_branch.html',
@@ -118,6 +120,15 @@ const getFilePath = (fileName) => {
     'bank_statement.html': '../frontend/public/bank_statement.html',
     'bank_statement.css': '../frontend/src/styles/bank_statement.css',
     'bank_statement.js': '../frontend/src/components/bank_statement.js',
+    'products.html': '../frontend/public/products.html',
+    'products.css': '../frontend/src/styles/products.css',
+    'products.js': '../frontend/src/components/products.js',
+    'report_debit_card.html': '../frontend/public/report_debit_card.html',
+    'report_debit_card.css': '../frontend/src/styles/report_debit_card.css',
+    'report_debit_card.js': '../frontend/src/components/report_debit_card.js',
+    'modify_products.html': '../frontend/public/modify_products.html',
+    'modify_products.css': '../frontend/src/styles/modify_products.css',
+    'modify_products.js': '../frontend/src/components/modify_products.js',
     'bank_teller.html': '../frontend/public/bank_teller.html',
     'bank_teller.css': '../frontend/src/styles/bank_teller.css',
     'bank_teller.js': '../frontend/src/components/bank_teller.js',
@@ -126,7 +137,16 @@ const getFilePath = (fileName) => {
     'schedule_meeting.js': '../frontend/src/components/schedule_meeting.js',
     'schedule_meeting.css': '../frontend/src/styles/schedule_meeting.css',
     'automated_interest.html': '../frontend/public/automated_interest.html',
-    'automated_interest.js': '../frontend/src/components/automated_interest.js'
+    'automated_interest.js': '../frontend/src/components/automated_interest.js',
+    'funds_transfer.html': '../frontend/public/funds_transfer.html',
+    'funds_transfer.css': '../frontend/src/styles/funds_transfer.css',
+    'funds_transfer.js': '../frontend/src/components/funds_transfer.js',
+    'create_teller.html': '../frontend/public/create_teller.html',
+    'create_teller.css': '../frontend/src/styles/create_teller.css',
+    'create_teller.js': '../frontend/src/components/create_teller.js',
+    'overdraft.html': '../frontend/public/overdraft.html',
+    'overdraft.css': '../frontend/src/styles/overdraft.css',
+    'overdraft.js': '../frontend/src/components/overdraft.js'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }

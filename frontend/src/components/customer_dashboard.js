@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const credit_card_payment = document.getElementById('credit_card_payment');
             const bank_statement = document.getElementById('bank_statement');
             const schedule_meeting = document.getElementById('schedule_meeting');
+            const debit_card_details = document.getElementById('debit_card_details');
 
             
             
@@ -92,6 +93,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     const interestRate = 100;
                     document.getElementById('interest_rate').textContent = "Monthly Interest Rate: 1%";
     });
+          report_debit_card.addEventListener('click', function () {
+              window.location.href = "/report_debit_card.html"; // Redirect to the new debit card details page
+          });
+          explore_products.addEventListener('click', function () {
+              window.location.href = "/products.html"; // Redirect to the new debit card details page
+          });
+
+        funds_transfer.addEventListener('click',function () {
+          window.location.href = "../../public/funds_transfer.html";
+        });
+
+        overdraft.addEventListener('click',function () {
+          window.location.href = "../../public/overdraft.html";
+        });
         
         // Function to add rows to the activity table
         function addRowsToTable(data) {
