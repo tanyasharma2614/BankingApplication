@@ -86,6 +86,8 @@ const getFilePath = (fileName) => {
   const filePaths = {
     // Add file paths here 
     'main.css': '../frontend/src/styles/main.css',
+    'application.html': '../frontend/public/application.html',
+    'change_credentials.html': '../frontend/public/change_credentials.html',
     'sign-up.html': '../frontend/public/sign-up.html',
     'login.html':'../frontend/public/login.html',
     'locate_branch.html': '../frontend/public/locate_branch.html',
