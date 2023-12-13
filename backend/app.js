@@ -122,6 +122,15 @@ const getFilePath = (fileName) => {
     'bank_teller.css': '../frontend/src/styles/bank_teller.css',
     'bank_teller.js': '../frontend/src/components/bank_teller.js',
     'index.css': '../frontend/src/styles/index.css',
+    'funds_transfer.html': '../frontend/public/funds_transfer.html',
+    'funds_transfer.css': '../frontend/src/styles/funds_transfer.css',
+    'funds_transfer.js': '../frontend/src/components/funds_transfer.js',
+    'create_teller.html': '../frontend/public/create_teller.html',
+    'create_teller.css': '../frontend/src/styles/create_teller.css',
+    'create_teller.js': '../frontend/src/components/create_teller.js',
+    'overdraft.html': '../frontend/public/overdraft.html',
+    'overdraft.css': '../frontend/src/styles/overdraft.css',
+    'overdraft.js': '../frontend/src/components/overdraft.js'
   };
   return filePaths[fileName] ? path.join(__dirname, filePaths[fileName]) : null;
 }

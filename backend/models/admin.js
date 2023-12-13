@@ -128,11 +128,61 @@ const admin={
     deletepolicyrate: function (policy_name, callback) {
         const sql = "DELETE FROM Policy_Rates WHERE Policy_Name = ?";
         db.query(sql, [policy_name], callback);
-    }
+    },
     //# endregion
+    getTellers: function (callback) {
+        const sql = "SELECT employee_id, first_name, last_name FROM bank_representative WHERE employee_type = 'Teller'";
+        db.query(sql, callback);
+    },
+    getCustID: function (emp_id, callback) {
+        const sql = "SELECT customer_id FROM bank_representative WHERE employee_id = ?";
+        db.query(sql, [emp_id], callback);
+    },
+    deleteTellerCred: function (cust_id, callback) {
+        const sql = "DELETE FROM credentials WHERE customer_id = ?";
+        db.query(sql, [cust_id], callback);
+    },
+    deleteTellerRep: function (emp_id, callback) {
+        const sql = "DELETE FROM bank_representative WHERE employee_id = ?";
+        db.query(sql, [emp_id], callback);
+    },
+    checkUsernames: function (username, callback) {
+        const sql = "SELECT COUNT(1) as cnt FROM credentials WHERE username = ?";
+        db.query(sql, [username], callback);
+    },
+    // getMaxCustId: function (callback) {
+    //     const sql = "SELECT MAX(customer_id) as max_cust FROM credentials";
+    //     db.query(sql, callback);
+    // },
+    getMaxCustId: function(callback)
+    {
+        const sql = "SELECT MAX(customer_id) as max_cust FROM credentials";
+        db.query(sql, (error, results) => {
+            if (error) {
+                console.error('Error getting max cust ID:', error);
+                callback(error, null);
+            } else {
+                callback(null, results);
+            }
+        });
 
-
-
+    },
+    addTellerCred: function (customer_id, user_type, username, password, callback) {
+        const sql = "INSERT INTO credentials(customer_id, user_type, username, password) VALUES (?,?,?,?)";
+        db.query(sql, [customer_id, user_type, username, password], callback);
+    },
+    getTellerCustId: function (username, callback) {
+        const sql = "SELECT customer_id FROM credentials WHERE username = ?";
+        db.query(sql, [username], callback);
+    },
+    addTellerRep: function (cust_id, first_name, last_name, emp_type, callback) {
+        const sql = "INSERT INTO bank_representative(customer_id, first_name, last_name, employee_type) VALUES (?,?,?,?)";
+        db.query(sql, [cust_id, first_name, last_name, emp_type], callback);
+    },
+    checkAdmin: function (cust_id, callback) {
+        const sql = `SELECT user_type FROM credentials WHERE customer_id = ${cust_id}`;
+        db.query(sql, callback);
+    }
 }
 
 module.exports=admin;

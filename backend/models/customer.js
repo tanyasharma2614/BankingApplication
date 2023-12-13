@@ -172,6 +172,18 @@ const Customer={
         const sql = `SELECT * FROM transactions
                      WHERE Customer_Id = ${customer_id}`;
         db.query(sql, callback);
+    },
+    getAccountNumbers: function(customer_id, callback) {
+        const sql = `SELECT account_number FROM accounts WHERE Customer_Id = ${customer_id}`;
+        db.query(sql, callback);
+    },
+    getODAccDetails: function(customer_id, callback) {
+        const sql = `SELECT account_number, account_balance, overdraft FROM accounts WHERE Customer_Id = ${customer_id}`;
+        db.query(sql, callback);
+    },
+    updateOverdraftStat: function(overdraft, accNumber, callback) {
+        const sql = `UPDATE accounts SET overdraft = ? WHERE account_number = ?`;
+        db.query(sql, [overdraft, accNumber], callback);
     }
 };
 
