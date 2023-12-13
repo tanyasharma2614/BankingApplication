@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('accountDropdown').addEventListener('change', account_drop_down_closed);
             const credit_card_payment = document.getElementById('credit_card_payment');
             const bank_statement = document.getElementById('bank_statement');
+            const schedule_meeting = document.getElementById('schedule_meeting');
             const debit_card_details = document.getElementById('debit_card_details');
 
             
@@ -85,7 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
         bank_statement.addEventListener('click', function () {
           window.location.href = "/bank_statement.html";
       });
-
+        schedule_meeting.addEventListener('click', function () {
+            window.location.href = "/schedule_meeting.html";
+    });
+        interest_rate.addEventListener('click', function () {
+                    const interestRate = 100;
+                    document.getElementById('interest_rate').textContent = "Monthly Interest Rate: 1%";
+    });
           report_debit_card.addEventListener('click', function () {
               window.location.href = "/report_debit_card.html"; // Redirect to the new debit card details page
           });
