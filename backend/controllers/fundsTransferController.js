@@ -102,8 +102,8 @@ const fundsTransferController = {
             return res.end(JSON.stringify({error: err.sqlMessage}));
             }
                 
-            const newSenderBalance = sender_balance - amount - overdraft_fees;
-            const newReceiverBalance = receiver_balance + amount;
+            const newSenderBalance = parseFloat(sender_balance) - parseFloat(amount) - parseFloat(overdraft_fees);
+            const newReceiverBalance = parseFloat(receiver_balance) + parseFloat(amount);
               
             transferModel.update_balance(newSenderBalance, sender_account, customer_id, (err, result) => {
               if (err) {
@@ -181,7 +181,7 @@ const fundsTransferController = {
               return res.end(JSON.stringify({error: err.sqlMessage}));
             }
 
-            const newSenderBalance = sender_balance - amount - overdraft_fees;
+            const newSenderBalance = parseFloat(sender_balance) - parseFloat(amount) - parseFloat(overdraft_fees);
 
             transferModel.update_balance(newSenderBalance, sender_account, customer_id, (err, result) => {
               if (err) {
