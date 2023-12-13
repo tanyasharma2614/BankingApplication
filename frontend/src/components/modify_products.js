@@ -16,40 +16,6 @@ function fetchProducts() {
         .catch(error => console.error('Error:', error));
 }
 
-// function displayProducts(products) {
-//     const container = document.getElementById('productsContainer');
-//     container.innerHTML = ''; // Clear existing content
-
-//     products.forEach(product => {
-//         const productDiv = document.createElement('div');
-//         productDiv.className = 'product';
-
-//         const title = document.createElement('h2');
-//         title.innerText = product.Product_Name;
-
-//         const shortDesc = document.createElement('p');
-//         shortDesc.innerText = product.Product_short_desc;
-
-//         const editBtn = document.createElement('button');
-//         editBtn.innerText = 'Edit';
-//         editBtn.className = 'button';
-//         editBtn.onclick = () => editProduct(product);
-
-//         const deleteBtn = document.createElement('button');
-//         deleteBtn.innerText = 'Delete';
-//         deleteBtn.className = 'button';
-//         deleteBtn.onclick = () => deleteProduct(product.Product_Id);
-
-//         productDiv.appendChild(title);
-//         productDiv.appendChild(shortDesc);
-//         productDiv.appendChild(editBtn);
-//         productDiv.appendChild(deleteBtn);
-
-//         container.appendChild(productDiv);
-//     });
-// }
-
-
 function displayProducts(products) {
     const container = document.getElementById('productsContainer');
     container.innerHTML = ''; // Clear existing content
@@ -84,11 +50,6 @@ function displayProducts(products) {
     });
 }
 
-// function editProduct(product) {
-//     // Implementation to edit product
-//     // This could open a modal or a new form with pre-filled product details
-// }
-
 function deleteProduct(productId) {
     const confirmation = confirm('Are you sure you want to delete this product?');
     if (confirmation) {
@@ -106,11 +67,6 @@ function deleteProduct(productId) {
             .catch(error => console.error('Error:', error));
     }
 }
-
-// function addProduct() {
-//     // Implementation to add product
-//     // This could open a modal or a new form to input product details
-// }
 
 function editProduct(product) {
     const productDiv = document.querySelector(`#product-${product.Product_Id}`);

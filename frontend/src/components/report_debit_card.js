@@ -9,25 +9,10 @@ function fetchDebitCardDetails() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            // Include authorization headers if necessary
             "Authorization": "Bearer "+localStorage.getItem("auth_token")
         }
     })
     .then(response => response.json())
-//     .then(data => {
-//         if (data.success) {
-//             const detailsContainer = document.getElementById('card-details');
-//             console.log("Data: " + data)
-//             detailsContainer.innerHTML = `
-//                 <p>Card Number: ${data.Card_Number}</p>
-//                 <p>Card Status: ${data.cardStatus}</p>
-//             `;
-//         } else {
-//             console.error('Error fetching card details:', data.error);
-//         }
-//     })
-//     .catch(error => console.error('Error:', error));
-// }
     .then(data => {
         if (data.success && data.data.length > 0) {
             const cardDetails = data.data[0]; // Access the first element of the data array
@@ -75,11 +60,9 @@ function reportCard(cardId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Show popup with message and confirm button
-            // You will need to implement a function to show this popup
             showReportCardPopup(data.message, cardId);
         }
-        // ... handle other cases ...
+        
     });
 }
 
@@ -102,7 +85,7 @@ function confirmReportCard(cardId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Handle success - perhaps reload data or update UI
+            
             alert('Card reported successfully.');
             fetchDebitCardDetails(); // Refresh the card details
         } else {

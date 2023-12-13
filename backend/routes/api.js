@@ -45,15 +45,12 @@ function handleAPIRequest(req, res) {
         customerController.locate_branch(req, res);
         break;
       case 'confirmReportCard':
-        // authenticateToken(reportCardController.confirmReportCard(req,res));
         reportCardController.confirmReportCard(req,res)
         break;
       case 'deleteCard':
-        // authenticateToken(reportCardController.deleteCard(req,res));
         reportCardController.deleteCard(req,res)
         break;
       case 'reactivateCard':
-        // authenticateToken(reportCardController.reactivateCard(req,res));
         reportCardController.reactivateCard(req,res)
         break;
       case 'addProduct':
@@ -106,11 +103,9 @@ function handleAPIRequest(req, res) {
         customerController.google_login_callback(req,res);
         break;
       case 'fetch-debit-card-details':
-        // reportCardController.fetchDebitCardDetails(req, res);
         authenticateToken(req, res, () => reportCardController.fetchDebitCardDetails(req, res));
         break;
       case 'report-card':
-        // authenticateToken(reportCardController.reportCard(req,res));
         reportCardController.reportCard(req,res);
         break;
       case 'fetch-product-details':

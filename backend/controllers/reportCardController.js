@@ -8,11 +8,9 @@ const reportCardController = {
     // Function to fetch card details and prompt for confirmation
 
     fetchDebitCardDetails: function(req, res) {
-        const customerId = req.customerId; // Assuming this is set by your authentication middleware
+        const customerId = req.customerId; 
         console.log("Customer Id: " + customerId)
-        // Query your database to get the Account_Number from the 'accounts' table
-        // Then, use the Account_Number to get Card_Number and Card_Status from 'cards' table
-        // For example:
+
         Customer.fetchDebitCardDetails(customerId, (error, cardDetails) => {
             if (error) {
                 console.error('Fetching card details failed:', error);
@@ -39,9 +37,7 @@ const reportCardController = {
         try {
             const parsedUrl = url.parse(req.url, true);
             const cardId = parsedUrl.query.cardId;
-            //const cardId = req.query.cardId;
             
-            // Placeholder for the database query function
             Customer.getCardNumberByCardId(cardId, (error, cardNumber) => {
                 if (error) {
                     console.error('Fetching card number failed:', error);
@@ -78,7 +74,7 @@ const reportCardController = {
         let body = '';
     
         req.on('data', chunk => {
-            body += chunk.toString(); // make sure to convert to string if chunk is a buffer
+            body += chunk.toString(); 
         });
     
         req.on('end', async () => {

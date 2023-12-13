@@ -243,12 +243,4 @@ const fundsTransferController = {
   }
 };
 
-function getUserConfirmation(message) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(confirm(message));
-    }, 5000);
-  });
-}
-
 module.exports = fundsTransferController;

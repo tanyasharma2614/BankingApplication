@@ -285,13 +285,9 @@ const Customer={
         db.query(sql, callback);
     },
 
-    // getProductDetailsById: function(productId, callback) {
-    //     const sql = `SELECT * FROM Products WHERE Product_Id = ${productId};`;
-    // }
     getAllProducts: function(callback) {
 
         const sql = 'SELECT * FROM Products;';
-        // Execute the SQL query using your database connection, and call the callback with the results.
         db.query(sql, callback);
     },
     getAccountNumbers: function(customer_id, callback) {
