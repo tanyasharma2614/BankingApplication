@@ -1,5 +1,5 @@
 const db=require('../config/database');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const Customer={
 
@@ -135,12 +135,6 @@ const Customer={
                     WHERE Customer_Id = ${customer_id}
                     AND Timestamp_Start >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
                     ORDER BY Timestamp_Start DESC;`;
-// <<<<<<< HEAD
-    //     db.query(sql, callback); 
-    // },
-
-    
-// =======
 
         db.query(sql,  (error, results) => {
             
@@ -228,7 +222,6 @@ const Customer={
     findCustomerById: function(customer_id, callback) {
         const sql = `SELECT * FROM transactions
                      WHERE Customer_Id = ${customer_id}`;
-// >>>>>>> main
         db.query(sql, callback);
     },
 

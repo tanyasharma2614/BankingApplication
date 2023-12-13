@@ -9,8 +9,6 @@ const { parse } = require('querystring');
 const authenticateToken = require('../controllers/middleware.js');
 
 
-const jwt = require('jsonwebtoken');;
-
 function handleAPIRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const { pathname } = url;
