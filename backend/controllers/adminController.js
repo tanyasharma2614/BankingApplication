@@ -1,6 +1,7 @@
+const https = require('https');
 const url = require('url');
 const Admin = require('../models/admin');
-
+const bcrypt = require('bcrypt');
 
 const adminController = {
 
@@ -375,9 +376,213 @@ const adminController = {
                 res.end(JSON.stringify(responseData));
             }
         });
+    },
+    deleteTeller: function (req, res) {
+        let body = '';
+        req.on('data', (parts) => {
+          body += parts;
+        });
+      
+        req.on('end', () => {
+            const parsedBody = JSON.parse(body);
+            const admin_customer_id = parseInt(req.customerId);
+            const employee_id = parsedBody.employee_id;
+
+            if (!employee_id) {
+                res.statusCode = 500;
+                return res.end(JSON.stringify({error: 'Missing EmployeeID of Teller to Delete.'}));
+            }
+
+            Admin.getCustID(employee_id, (error, results) => {
+                if (error) {
+                    console.error('Fetching customer ID of Teller Failed:', error);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    //res.end(JSON.stringify({ message: 'Fetching customer ID of Teller Failed', error }));
+                    return res.end(JSON.stringify({error: 'Fetching customer ID of Teller Failed.', error}));
+                }
+                const fetch_cust_id = JSON.parse(JSON.stringify(results));
+                
+                if (fetch_cust_id.length === 0) {
+                    res.statusCode = 404;
+                    return res.end(JSON.stringify({error: 'Login credentails of Teller not found.', error}));
+                } else if (fetch_cust_id.length > 1) {
+                    res.statusCode = 500;
+                    return res.end(JSON.stringify({error: 'Duplicate login credentials found for Teller.', error}));
+                }
+
+                const cust_id = fetch_cust_id[0].customer_id;
+
+                Admin.deleteTellerRep(employee_id, (error, results) => {
+                    if (error) {
+                        console.error('Failed in deleting Teller as Bank Representative:', error);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        return res.end(JSON.stringify({error: 'Failed in deleting Teller as Bank Representative.', error}));
+                    }
+
+                    Admin.deleteTellerCred(cust_id, (error, results) => {
+                        if (error) {
+                            console.error('Failed in deleting Teller login credentials:', error);
+                            res.writeHead(500, { 'Content-Type': 'application/json' });
+                            return res.end(JSON.stringify({error: 'Failed in deleting Teller login credentials.', error}));
+                        }
+                        
+                        res.writeHead(200,{'Content-Type':'application/json'});
+                        return res.end(JSON.stringify({message: 'Deleted Teller Successfully'}));
+                    });
+                });
+
+            })
+
+        });
+    },
+    getTellers: function(req, res){
+        let body = '';
+        req.on('data', chunk => {
+          body += chunk;
+        });
+        req.on('end', async () => {
+            const admin_customer_id = parseInt(req.customerId);
+            Admin.checkAdmin(admin_customer_id, (error, results) => {
+                console.log('In addTeller: In checkAdmin');
+                if (error) {
+                    console.log('In addTeller: In checkUsernames: error');
+                    console.error('Failed while checking if user has admin rights:', error);
+                    console.log('Failed while checking if user has admin rights:');
+                    res.writeHead(403, { 'Content-Type': 'application/json' });
+                    //res.end(JSON.stringify({ message: 'Fetching customer ID of Teller Failed', error }));
+                    return res.end(JSON.stringify({error: 'Failed while checking if user has admin rights.', error}));
+                }
+                const user_type = JSON.parse(JSON.stringify(results));
+                console.log(`user_type[0].user_type: ${user_type[0].user_type}`);
+                console.log(`admin_customer_id: ${admin_customer_id}`);
+                if (user_type[0].user_type !== 'Admin') {
+                    console.log('In addTeller: User has Insufficient permission to view Tellers');
+                    res.statusCode = 403;
+                    return res.end(JSON.stringify({error: 'User has Insufficient permission to view Tellers'}));
+                }
+
+                Admin.getTellers((error, results) => {
+                    if(error){
+                    console.error(error);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Failed while fetching list of all tellers' }));
+                    } else{
+                    console.log(`Result of get query: ${JSON.stringify(results)}`);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    const responseData = {
+                        success: true,
+                        message: 'Data Received Successfully',
+                        //data: {results},
+                        data: { teller: results }
+                    };
+                    res.end(JSON.stringify(responseData));
+                    }
+                });
+            });  
+        });
+      },
+    addTeller: function (req, res) {
+        let body = '';
+        req.on('data', (parts) => {
+          body += parts;
+        });
+      
+        req.on('end', async ()  => {
+            console.log('In addTeller');
+            const parsedBody = JSON.parse(body);
+            const admin_customer_id = parseInt(req.customerId);
+            const password = parsedBody.password;
+            console.log(`password: ${password}`);
+            const hashedPassword = await bcrypt.hash(password, 10);
+            console.log(`hashedPassword: ${hashedPassword}`);
+            const username = parsedBody.username;
+            console.log(`username: ${username}`);
+            const firstName = parsedBody.first_name;
+            console.log(`firstName: ${firstName}`);
+            const lastName = parsedBody.last_name;
+            console.log(`lastName: ${lastName}`);
+
+            if (!username || !password || !firstName || !lastName) {
+                res.statusCode = 500;
+                return res.end(JSON.stringify({error: 'Missing Teller details.'}));
+            }
+            console.log('In addTeller: past if condition');
+            Admin.checkAdmin(admin_customer_id, (error, results) => {
+                console.log('In addTeller: In checkAdmin');
+                if (error) {
+                    console.log('In addTeller: In checkUsernames: error');
+                    console.error('Failed while checking if user has admin rights:', error);
+                    console.log('Failed while checking if user has admin rights:');
+                    res.writeHead(403, { 'Content-Type': 'application/json' });
+                    //res.end(JSON.stringify({ message: 'Fetching customer ID of Teller Failed', error }));
+                    return res.end(JSON.stringify({error: 'Failed while checking if user has admin rights.', error}));
+                }
+                const user_type = JSON.parse(JSON.stringify(results));
+                console.log(`user_type[0].user_type: ${user_type[0].user_type}`);
+                console.log(`admin_customer_id: ${admin_customer_id}`);
+                if (user_type[0].user_type !== 'Admin') {
+                    console.log('In addTeller: User has Insufficient permission to create new Teller');
+                    res.statusCode = 403;
+                    //return res.end(JSON.stringify({error: 'User has Insufficient permission to create new Teller', error}));
+                    return res.end(JSON.stringify({error: 'User has Insufficient permission to create new Teller'}));
+                }
+
+                Admin.checkUsernames(username, (error, results) => {
+                    console.log('In addTeller: In checkUsernames');
+                    if (error) {
+                        console.log('In addTeller: In checkUsernames: error');
+                        console.error('Failed in checking username availability:', error);
+                        console.log('Failed in checking username availability:');
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        //res.end(JSON.stringify({ message: 'Fetching customer ID of Teller Failed', error }));
+                        return res.end(JSON.stringify({error: 'Failed in checking username availability.', error}));
+                    }
+                    const user_name_count = JSON.parse(JSON.stringify(results));
+                    console.log(`In addTeller: user_name_count[0].cnt: ${user_name_count[0].cnt}`);
+                
+                    if (user_name_count[0].cnt > 0) {
+                        console.log('In addTeller: in username not avaialble condition');
+                        res.statusCode = 409;
+                        return res.end(JSON.stringify({error: 'User already exists. Please choose another username', error}));
+                    }
+
+                    console.log(`In addTeller:just before addTellerCred`);
+                    Admin.getMaxCustId((error, results) => {
+                        console.log('In addTeller: in getMaxCustId');
+                        if (error) {
+                            console.error('Failed in generating new cust ID:', error);
+                            res.writeHead(500, { 'Content-Type': 'application/json' });
+                            return res.end(JSON.stringify({error: 'Failed in generating new cust ID.', error}));
+                        }
+                        const max_cust_id = JSON.parse(JSON.stringify(results));
+                        const new_cust_id = max_cust_id[0].max_cust + 1;
+                        console.log(`In addTeller: in getMaxCustId. max_cust_id: ${max_cust_id}`);
+                        console.log(`In addTeller: in getMaxCustId. new_cust_id: ${new_cust_id}`);
+
+                        Admin.addTellerCred(new_cust_id,'Teller',username,hashedPassword, (error, results) => {
+                            console.log('In addTeller: in addTellerCred');
+                            if (error) {
+                                console.error('Failed in adding Teller as Bank Representative:', error);
+                                res.writeHead(500, { 'Content-Type': 'application/json' });
+                                return res.end(JSON.stringify({error: 'Failed in adding Teller as Bank Representative.', error}));
+                            }
+                            Admin.addTellerRep(new_cust_id,firstName,lastName,'Teller', (error, results) => {
+                                console.log('In addTeller: in addTellerRep');
+                                if (error) {
+                                    console.error('Failed in adding Teller login credentials:', error);
+                                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                                    return res.end(JSON.stringify({error: 'Failed in adding Teller login credentials.', error}));
+                                }
+                                console.log('In addTeller: returning successfully');
+                                res.writeHead(200,{'Content-Type':'application/json'});
+                                return res.end(JSON.stringify({success: true, message: 'Added Teller Successfully'}));
+                            });
+                        });
+                    });
+                })
+            });
+        });
     }
-
-
 }
 
 module.exports = adminController;

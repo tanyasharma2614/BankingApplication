@@ -223,6 +223,77 @@ const Customer={
         const sql = `SELECT * FROM transactions
                      WHERE Customer_Id = ${customer_id}`;
         db.query(sql, callback);
+    },
+
+    fetchDebitCardDetails: function(customerId, callback) {
+        const sql = `
+            SELECT c.Card_id, c.Card_Number, c.Card_Status
+            FROM accounts a
+            JOIN cards c ON a.Account_Number = c.Account_Number
+            WHERE a.Customer_Id = ?;
+        `;
+    
+        // Execute the SQL query using your database connection, and call the callback with the results.
+        db.query(sql, [customerId], callback);
+    },
+    
+    
+    getCardNumberByCardId: function(cardId, callback){
+        // Note: Need to have the Card with the current cardId in the Cards table before this
+        const sql = `SELECT Card_Number FROM Cards
+                     WHERE Card_Id = ${cardId};`;
+        db.query(sql, callback); 
+    },
+
+    getCardStatus: function(cardId, callback) {
+        const sql = `SELECT Card_status FROM Cards WHERE Card_Id = ${cardId};`;
+        db.query(sql, (err, result) => {
+            if (err) {
+                return callback(err, null);
+            }
+            if (result.length) {
+                return callback(null, result[0].Card_status);
+            } else {
+                return callback(new Error('Card not found'), null);
+            }
+        });
+    },    
+
+    updateCardStatus: function(cardId, newStatus, callback){
+        // Note: Need to have the Card with the current cardId in the Cards table before this
+        const sql = `UPDATE Cards
+                     SET Card_status = ${newStatus}
+                     WHERE Card_Id = ${cardId};`;
+        db.query(sql, callback); 
+    },
+    
+    getEmailByCardId: function(cardId, callback){
+        const sql = `
+            SELECT Customer.email
+            FROM Cards
+            JOIN Accounts ON Cards.account_number = Accounts.account_number
+            JOIN Customer ON Accounts.customer_id = Customer.customer_id
+            WHERE Cards.card_id = ${cardId};
+        `;
+        db.query(sql, callback);
+    },
+
+    getAllProducts: function(callback) {
+
+        const sql = 'SELECT * FROM Products;';
+        db.query(sql, callback);
+    },
+    getAccountNumbers: function(customer_id, callback) {
+        const sql = `SELECT account_number FROM accounts WHERE Customer_Id = ${customer_id}`;
+        db.query(sql, callback);
+    },
+    getODAccDetails: function(customer_id, callback) {
+        const sql = `SELECT account_number, account_balance, overdraft FROM accounts WHERE Customer_Id = ${customer_id}`;
+        db.query(sql, callback);
+    },
+    updateOverdraftStat: function(overdraft, accNumber, callback) {
+        const sql = `UPDATE accounts SET overdraft = ? WHERE account_number = ?`;
+        db.query(sql, [overdraft, accNumber], callback);
     }
 };
 

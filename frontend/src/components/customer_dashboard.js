@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('accountDropdown').addEventListener('change', account_drop_down_closed);
             const credit_card_payment = document.getElementById('credit_card_payment');
             const bank_statement = document.getElementById('bank_statement');
+            const debit_card_details = document.getElementById('debit_card_details');
 
             
             
@@ -84,6 +85,21 @@ document.addEventListener("DOMContentLoaded", function () {
         bank_statement.addEventListener('click', function () {
           window.location.href = "/bank_statement.html";
       });
+
+          report_debit_card.addEventListener('click', function () {
+              window.location.href = "/report_debit_card.html"; // Redirect to the new debit card details page
+          });
+          explore_products.addEventListener('click', function () {
+              window.location.href = "/products.html"; // Redirect to the new debit card details page
+          });
+
+        funds_transfer.addEventListener('click',function () {
+          window.location.href = "../../public/funds_transfer.html";
+        });
+
+        overdraft.addEventListener('click',function () {
+          window.location.href = "../../public/overdraft.html";
+        });
         
         // Function to add rows to the activity table
         function addRowsToTable(data) {

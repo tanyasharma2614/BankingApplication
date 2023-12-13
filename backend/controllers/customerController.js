@@ -502,8 +502,107 @@ const customerController = {
     req.on('end', () => {
       send_map_request(request_body, res);
     });
-  }
+  },
+  getAccountNumbers: function(req, res){
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+        const cust_id = req.customerId;
+        console.log(`cust_id: ${cust_id}`);
+        if (!cust_id) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          console.log('Unable to authenticate and identify the user');
+          res.end(JSON.stringify({ error: 'Unable to authenticate and identify the user' }));
+        }else{
 
+          Customer.getAccountNumbers(cust_id, (error, results) => {
+            if(error){
+              console.error(error);
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else{
+              console.log(`Result of get query: ${JSON.stringify(results)}`);
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              const responseData = {
+                success: true,
+                message: 'Data Received Successfully',
+                data: {results},
+              };
+              res.end(JSON.stringify(responseData));
+            }
+          });
+          
+        }
+    });
+  },
+  toggleOverdraft: function(req, res){
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+        const cust_id = req.customerId;
+        console.log(`cust_id: ${cust_id}`);
+        if (!cust_id) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          console.log('Unable to authenticate and identify the user');
+          res.end(JSON.stringify({ error: 'Unable to authenticate and identify the user' }));
+        } else{
+          const parsedBody = JSON.parse(body);
+          const accNumber = parsedBody.account_number;
+          const overdraft = parsedBody.overdraft;
+
+          Customer.updateOverdraftStat(overdraft, accNumber, (error, results) => {
+            console.log('In toggleOverdraft: in addTellerRep');
+            if (error) {
+                console.error('Failed in updating overdraft Status:', error);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                return res.end(JSON.stringify({error: 'Failed in updating overdraft Status.', error}));
+            }
+            console.log('In toggleOverdraft: returning successfully');
+            res.writeHead(200,{'Content-Type':'application/json'});
+            return res.end(JSON.stringify({success: true, message: 'Overdraft Enrollment Status changed Successfully'}));
+          });
+        }
+    });
+  },
+  getODAccDetails: function(req, res){
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+    });
+    req.on('end', async () => {
+        const cust_id = req.customerId;
+        console.log(`cust_id: ${cust_id}`);
+        if (!cust_id) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          console.log('Unable to authenticate and identify the user');
+          res.end(JSON.stringify({ error: 'Unable to authenticate and identify the user' }));
+        }else{
+
+          Customer.getODAccDetails(cust_id, (error, results) => {
+            if(error){
+              console.error(error);
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            }
+            else{
+               console.log(`Result of get query: ${JSON.stringify(results)}`);
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              const responseData = {
+                success: true,
+                message: 'Data Received Successfully',
+                data: {overdraftDetails: results},
+              };
+              res.end(JSON.stringify(responseData));
+            }
+          });
+          
+        }
+    });
+  }
 };
 
 module.exports = customerController
