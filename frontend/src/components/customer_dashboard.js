@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('accountDropdown').addEventListener('change', account_drop_down_closed);
             const credit_card_payment = document.getElementById('credit_card_payment');
             const bank_statement = document.getElementById('bank_statement');
+            const schedule_meeting = document.getElementById('schedule_meeting');
 
             
             
